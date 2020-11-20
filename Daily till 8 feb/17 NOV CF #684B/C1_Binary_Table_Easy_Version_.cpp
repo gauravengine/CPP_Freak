@@ -15,7 +15,12 @@ using ll = long long;
 int main()
 {
     ios::sync_with_stdio(0);
-	
+    cin.tie(0);
+    cout.tie(0);
+    int t;
+    cin>>t;
+    while(t--){
+        int n,m; cin>>n>>m;
         int arr[n+1][m+1];
         for(int i=1;i<=n;i++){
         	string s; cin>>s;
@@ -23,8 +28,8 @@ int main()
         		arr[i][j]= s[j-1];
         	}
         } 	
-    	
-
+    		
+      
 
 
         cout<<'\n';

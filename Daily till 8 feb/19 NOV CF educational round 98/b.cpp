@@ -1,6 +1,7 @@
 // Created by yadav_gaurav
 #include <bits/stdc++.h>
 
+
 #define db1(x) cout<<#x<<"="<<x<<'\n'
 #define db2(x,y) cout<<#x<<"="<<x<<","<<#y<<"="<<y<<'\n'
 #define db3(x,y,z) cout<<#x<<"="<<x<<","<<#y<<"="<<y<<","<<#z<<"="<<z<<'\n'
@@ -41,9 +42,7 @@ int32_t main()
     int t;
     cin>>t;
     while(t--){
-        
-
-       
+         
         cout<<'\n';
     }
     return 0;
