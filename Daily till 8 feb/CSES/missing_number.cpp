@@ -1,4 +1,6 @@
-// Created by yadav_gaurav
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
 
 
@@ -23,7 +25,7 @@
 #define mk(arr,n,type)  type *arr=new type[n];
 #define w(x)            int x; cin>>x; while(x--)
 
-
+ 
 
 #define mod 1000000007
 
@@ -38,41 +40,20 @@ int32_t main()
     //#ifndef ONLINE_JUDGE
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-    //#endif
-    int t;
-    cin >> t;
-    while (t--) {
-        int n; cin >> n;
-        vector<int> v;
-        int a; cin >> a; v.push_back(a);
-        unordered_map<int, int> freq; freq[v[0]]++;
-        for (int i = 1; i < n; i++) {
-            int a; cin >> a;
-            if (a == v.back()) {
-                continue;
-            }
-            else {
-                freq[a]++;
-                v.push_back(a);
-            }
-        }
-        // now the vector is free from consecutives
-        if (freq[v[0]] == v.size()) {
-            cout << 0;
-        }
-        else {
-            freq[v[0]]--;
-            freq[v[v.size() - 1]]--;
-            int ans = freq[v[0]] + 1;
-            for (int i = 1; i < v.size(); i++) {
-                if (ans > freq[v[i]] + 1) {
-                    ans = freq[v[i]] + 1;
-                }
-            }
-            cout << ans;
-        }
-
-        cout << '\n';
+    //#endif 
+    int n; cin>>n;
+    unordered_map<int,bool> check;
+    for(int i=0;i<n-1;i++){
+        int x; cin>>x;
+        check[x] = true;
     }
+
+    for(int i=1;i<=n;i++){
+        if(!check[i]){
+            cout<<i;
+            break;
+        }
+    }
+
     return 0;
 }
