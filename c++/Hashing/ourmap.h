@@ -30,7 +30,7 @@ class ourmap
     {
         count = 0;
         numBuckets = 5;
-        bucket = new MapNode<v> *[numBuckets];
+        bucket = new MapNode<V>*[numBuckets];
         for (int i = 0; i < numBuckets; i++)
         {
             bucket[i] = NULL;
@@ -91,7 +91,7 @@ class ourmap
         int bucketIndex = getBucketIndex(key);
         MapNode<V> * head= bucket[bucketIndex];
         MapNode<V> *prev =NULL;
-        while(head->NULL){
+        while(head!=NULL){
             if(head->key== key){
                 if(prev !=NULL){
                     prev->next = head->next;
@@ -115,7 +115,7 @@ class ourmap
         return 0; // signifies value not found
     }
 
-    void getValue(string key){
+    V getValue(string key){
         int bucketIndex = getBucketIndex(key);
         MapNode<V> * head= bucket[bucketIndex];
         while(head != NULL){
