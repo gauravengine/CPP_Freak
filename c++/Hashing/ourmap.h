@@ -83,7 +83,6 @@ class ourmap
             temp->next = bucket[bucketIndex];
             bucket[bucketIndex]= temp;
             count++;
-            
         }
 
     }
@@ -114,5 +113,18 @@ class ourmap
         } 
 
         return 0; // signifies value not found
+    }
+
+    void getValue(string key){
+        int bucketIndex = getBucketIndex(key);
+        MapNode<V> * head= bucket[bucketIndex];
+        while(head != NULL){
+            if(head->key == key){
+                return head->value;
+            }
+            head= head-> next;
+        }
+
+        return 0; // when not found
     }
 };
