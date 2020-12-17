@@ -1,79 +1,130 @@
-#include <iostream>
-#include <stack>
-#include <vector>
-#include <cstring>
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
+#include <bits/stdc++.h>
+#include <unordered_set>
+
+#define db1(x) cout << #x << "=" << x << '\n'
+#define db2(x, y) cout << #x << "=" << x << "," << #y << "=" << y << '\n'
+#define db3(x, y, z) cout << #x << "=" << x << "," << #y << "=" << y << "," << #z << "=" << z << '\n'
+#define ff first
+#define ss second
+#define int long long
+#define pb push_back
+#define mp make_pair
+#define pii pair<int, int>
+#define vi vector<int>
+#define mii map<int, int>
+#define pqb priority_queue<int>
+#define pqs priority_queue<int, vi, greater<int>>
+#define setbits(x) __builtin_popcountll(x)
+#define zrobits(x) __builtin_ctzll(x)
+#define mod 1000000007
+#define inf 1e18
+#define ps(x, y) fixed << setprecision(y) << x
+#define mk(arr, n, type) type *arr = new type[n];
+#define w(x)  \
+    int x;    \
+    cin >> x; \
+    while (x--)
+
+#define mod 1000000007
+
 using namespace std;
+using ll = long long;
 
-stack<int> st;
-vector<int> adjList[100010];
-bool visited[100010];
-
-void dfs2(int index)
+void dfs(vector<int> *edges, unordered_set<int> &visited, int v, int start, stack<int> &finishedVertex)
 {
-    visited[index] = true;
-    for (unsigned int j = 0; j < adjList[index].size(); j++)
+    visited.insert(start);
+    for (int i = 0; i < edges[start].size(); i++)
     {
-        if (!visited[adjList[index][j]])
+        if (visited.count(edges[start][i]) == 0)
         {
-            dfs2(adjList[index][j]);
+            dfs(edges, visited, v, edges[start][i], finishedVertex);
+        }
+    }
+    finishedVertex.push(start);
+}
+void dfs2(vector<int> *edges, int start, int v, unordered_set<int> &visited, unordered_set<int> *component)
+{
+    visited.insert(start);
+    component->insert(start);
+    for (int i = 0; i < edges[start].size(); i++)
+    {
+        if (visited.count(edges[start][i]) == 0)
+        {
+            dfs2(edges, edges[start][i], v, visited, component);
         }
     }
 }
 
-void dfs(int index)
+unordered_set<unordered_set<int> *> *getSCC(vector<int> *edges, vector<int> *edgesT, int v)
 {
-    visited[index] = true;
-    for (unsigned int j = 0; j < adjList[index].size(); j++)
+    unordered_set<int> visited;
+    stack<int> finishedVertex;
+    for (int i = 0; i < v; i++)
     {
-        if (!visited[adjList[index][j]])
+        if (visited.count(i) == 0)
         {
-            dfs(adjList[index][j]);
+            dfs(edges, visited, v, i, finishedVertex);
         }
     }
-    st.push(index);
+    
+    // now my finishedVertex is filled so i have to start popping one by one
+    unordered_set<unordered_set<int> *> *output = new unordered_set<unordered_set<int> *>();
+    visited.clear();
+    while (!finishedVertex.empty())
+    {
+        int i = finishedVertex.top();
+        finishedVertex.pop();
+        unordered_set<int> *component = new unordered_set<int>();
+        if (visited.count(i) == 0)
+        {
+            dfs2(edges, i, v, visited, component);
+            output->insert(component);
+        }
+    }
+
+    return output;
 }
 
-int main()
+int32_t
+main()
 {
-    int tc;
-    scanf("%d", &tc);
-    while (tc--)
-    {
-        memset(visited, false, sizeof(visited));
+    // ios::sync_with_stdio(0);
+    // cin.tie(0);
+    
+    // cout.tie(0);
+    int t; cin>>t;
 
-        int n, m;
-        scanf("%d %d", &n, &m);
-        for (int i = 0; i < m; i++)
+    while(t--){
+        int v;
+        cin >> v;
+        int e;
+        cin >> e;
+        vector<int> *edges = new vector<int>[v];
+        vector<int> *edgesT = new vector<int>[v];
+        for (int i = 0; i < e; i++)
         {
-            int a, b;
-            scanf("%d %d", &a, &b);
-            adjList[a].push_back(b);
+            int x, y;
+            cin >> x >> y;
+            edges[x - 1].push_back(y - 1);
+            edgesT[y - 1].push_back(x - 1);
         }
-
-        for (int i = 1; i <= n; i++)
-        {
-            if (!visited[i])
-            {
-                dfs(i);
-            }
-        }
-        memset(visited, false, sizeof(visited));
+        unordered_set<unordered_set<int> *> *components = new unordered_set<unordered_set<int> *>();
+        components = getSCC(edges, edgesT, v);
+        unordered_set<unordered_set<int> *>::iterator it = components->begin();
         int count = 0;
-        while (!st.empty())
-        {
-            int index = st.top();
-            st.pop();
-            if (!visited[index])
-            {
-                count++;
-                dfs2(index);
-            }
+        while (it != components->end())
+        { //cout<<"here";
+            count++;
+            it++;
         }
-        printf("%d\n", count);
-        for (int i = 1; i <= n; i++)
-        {
-            adjList[i].clear();
-        }
+        cout << count << "\n";
+        delete components;
+        delete[] edges;
+        delete[] edgesT;
     }
+    
     return 0;
 }

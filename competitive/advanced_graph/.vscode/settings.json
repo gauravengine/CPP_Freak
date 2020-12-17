@@ -1,5 +1,7 @@
 {
     "files.associations": {
         "unordered_set": "cpp"
-    }
+    },
+    "pomodoro.workTime": 50,
+    "pomodoro.pauseTime": 10
 }
