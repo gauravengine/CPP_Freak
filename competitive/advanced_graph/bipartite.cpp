@@ -14,9 +14,19 @@ bool bipartite(vector<int> *edges, int n)
       int curr= pending.back();
       pending.pop_back();
       int currSet= sets[0].count(curr)>0 ? 0:1;
-      
-
+      for(int i=0;i<edges[curr].size();i++){
+          int adj = edges[curr][i];
+          if(sets[0].count(adj)==0 && sets[1].count(adj)==0){
+              sets[1-currSet].insert(adj);
+              pending.push_back(adj);
+          }
+          else if(sets[currSet].count(adj)>0){
+              return false;
+          }
+    }
+    
   }
+  return true;
 }
 
 int main()
