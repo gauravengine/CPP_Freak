@@ -41,32 +41,19 @@ int32_t main()
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     //#endif 
-    int t;
-    cin>>t;
-    while(t--){
-        int a, b,c; cin>>a>>b>>c;
-        int diff= ( (a)+(b)+(c) );
-
-        int com= (int)(diff/9);
-        //db1(com);
-        a= a-com;
-        b=b-com;
-        c=c-com;
+    
+        int n; cin>>n;    
+        string s;
+        cin>>s;
+        int a=0,d=0;
+        for(auto i:s){
+            if(i=='A') a++;
+            if(i=='D') d++;
+        }
+        if(a>d) cout<<"Anton"<<endl;
+        else if(d>a) cout<<"Danik"<<endl;
+        else cout<<"Friendship"<<endl;
         
-        if(a<0 || b<0 || c<0){
-            cout<<"NO";
-            /* continue ; this will pass  the '\n' statement and next iteration will not start from new line demn*/
-            
-        }
-        else if(diff%9 == 0){
-            cout<<"YES";
-        }
-        else{
-            cout<<"NO";
-        }
-        cout<<'\n';
-        
-
-    }
+    
     return 0;
 }

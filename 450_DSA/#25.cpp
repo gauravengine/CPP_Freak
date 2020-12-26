@@ -32,41 +32,46 @@
 using namespace std;
 using ll = long long;
 
+int qs(int *arr,int n){
+    int i=-1;
+    for(int j=0;j<n;j++){
+        if(arr[j]<0){
+            i++;
+            swap(arr[i],arr[j]);
+        }
+    }
+    return i+1;
+
+}
+void rear(int *arr,int pos,int n){
+    int temp=pos;
+    for(int i=1;i<n ;i+=2,pos++){
+        db2(i,pos);
+        if(arr[i]<0 && pos<n)swap(arr[i],arr[pos]);
+        else break;
+        
+    }
+}
+void print(int *arr,int n){
+    for(int i=0;i<n;i++){
+        
+        cout<<arr[i]<<" ";
+    }
+}
 int32_t main()
 {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-    //#ifndef ONLINE_JUDGE
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
-    //#endif 
-    int t;
-    cin>>t;
-    while(t--){
-        int a, b,c; cin>>a>>b>>c;
-        int diff= ( (a)+(b)+(c) );
-
-        int com= (int)(diff/9);
-        //db1(com);
-        a= a-com;
-        b=b-com;
-        c=c-com;
-        
-        if(a<0 || b<0 || c<0){
-            cout<<"NO";
-            /* continue ; this will pass  the '\n' statement and next iteration will not start from new line demn*/
-            
-        }
-        else if(diff%9 == 0){
-            cout<<"YES";
-        }
-        else{
-            cout<<"NO";
-        }
-        cout<<'\n';
-        
-
+    // ios::sync_with_stdio(0);
+    // cin.tie(0);
+    // cout.tie(0);
+    int n; cin>>n;
+    int *arr= new int[n];
+    for(int i=0;i<n;i++){
+        cin>>arr[i];
     }
+    int pos= qs(arr,n);
+    print(arr,n);
+    db1(pos);
+    rear(arr,pos,n);
+    print(arr,n);
     return 0;
 }

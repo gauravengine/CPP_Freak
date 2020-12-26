@@ -44,29 +44,24 @@ int32_t main()
     int t;
     cin>>t;
     while(t--){
-        int a, b,c; cin>>a>>b>>c;
-        int diff= ( (a)+(b)+(c) );
+        int n; cin>>n;
+        int*arr= new int[n];
+        int sume=0,sumo=0;
+        for(int i=0;i<n;i++){
+            cin>>arr[i];
+            if(i%2==0) sume+=arr[i];
+            else sumo+=arr[i];
+        }
+        if(sume<=sumo){
+            for(int i=0;i<n;i+=2) arr[i]=1; 
+        }else{
+            //sumo<sume
+            for(int i=1;i<n;i+=2) arr[i]=1;
+        }
+        for(int i=0;i<n;i++)cout<<arr[i]<<" ";
 
-        int com= (int)(diff/9);
-        //db1(com);
-        a= a-com;
-        b=b-com;
-        c=c-com;
-        
-        if(a<0 || b<0 || c<0){
-            cout<<"NO";
-            /* continue ; this will pass  the '\n' statement and next iteration will not start from new line demn*/
-            
-        }
-        else if(diff%9 == 0){
-            cout<<"YES";
-        }
-        else{
-            cout<<"NO";
-        }
+
         cout<<'\n';
-        
-
     }
     return 0;
 }

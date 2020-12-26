@@ -44,29 +44,8 @@ int32_t main()
     int t;
     cin>>t;
     while(t--){
-        int a, b,c; cin>>a>>b>>c;
-        int diff= ( (a)+(b)+(c) );
-
-        int com= (int)(diff/9);
-        //db1(com);
-        a= a-com;
-        b=b-com;
-        c=c-com;
         
-        if(a<0 || b<0 || c<0){
-            cout<<"NO";
-            /* continue ; this will pass  the '\n' statement and next iteration will not start from new line demn*/
-            
-        }
-        else if(diff%9 == 0){
-            cout<<"YES";
-        }
-        else{
-            cout<<"NO";
-        }
         cout<<'\n';
-        
-
     }
     return 0;
 }
