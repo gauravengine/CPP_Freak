@@ -5,28 +5,32 @@ using namespace std;
 
 bool bipartite(vector<int> *edges, int n)
 {
-  if(n==0) return true;
-  unordered_set<int> sets[2];
-  vector<int> pending;
-  sets[0].insert(0);
-  pending.push_back(0);
-  while(pending.size()>0){
-      int curr= pending.back();
-      pending.pop_back();
-      int currSet= sets[0].count(curr)>0 ? 0:1;
-      for(int i=0;i<edges[curr].size();i++){
-          int adj = edges[curr][i];
-          if(sets[0].count(adj)==0 && sets[1].count(adj)==0){
-              sets[1-currSet].insert(adj);
-              pending.push_back(adj);
-          }
-          else if(sets[currSet].count(adj)>0){
-              return false;
-          }
+    if (n == 0)
+        return true;
+    unordered_set<int> sets[2];
+    vector<int> pending;
+    sets[0].insert(0);
+    pending.push_back(0);
+    while (pending.size() > 0)
+    {
+        int curr = pending.back();
+        pending.pop_back();
+        int currSet = sets[0].count(curr) > 0 ? 0 : 1;
+        for (int i = 0; i < edges[curr].size(); i++)
+        {
+            int adj = edges[curr][i];
+            if (sets[0].count(adj) == 0 && sets[1].count(adj) == 0)
+            {
+                sets[1 - currSet].insert(adj);
+                pending.push_back(adj);
+            }
+            else if (sets[currSet].count(adj) > 0)
+            {
+                return false;
+            }
+        }
     }
-    
-  }
-  return true;
+    return true;
 }
 
 int main()

@@ -9,7 +9,7 @@
 #define db3(x,y,z) cout<<#x<<"="<<x<<","<<#y<<"="<<y<<","<<#z<<"="<<z<<'\n'
 #define ff              first
 #define ss              second
-//#define int             long long
+#define int             long long
 #define pb              push_back
 #define mp              make_pair
 #define pii             pair<int,int>
@@ -28,31 +28,19 @@
  
 
 #define mod 1000000007
-#define MAX 100000
+
 using namespace std;
 using ll = long long;
 
-int mul(int *arr, int x, int size){
-    int carry=0;
-    for(int i=0;i<size;i++){
-        int mul = arr[i]*x+carry;
-        arr[i] = mul%10;
-        carry= mul/10;
-    }
-    // this is wrong because i assumed carry to be one digit but it isnt as numbers increases for eg 2*99 =198 carry 19
-    // though chhote numbers pe chal jaega bc of their small carry ek arr[i] store kar lega but not for big numbers
-//    if(carry > 0){
-//         size++;
-//         arr[size-1]= carry;
-//     }
-    while (carry)
-    {
-        arr[size] = carry % 10;
-        carry = carry / 10;
-        size++;
+bool isSub(int *arr,int n,int *arr2,int m){
+    unordered_map<int,int> freq;
+    for(int i=0;i<n;i++) freq[arr[i]]++;
+
+    for(int i =0 ;i<m;i++){
+        if(freq.find(arr2[i])==freq.end()) return false;
     }
 
-    return size;
+    return true;
 }
 
 int32_t main()
@@ -67,17 +55,15 @@ int32_t main()
     int t;
     cin>>t;
     while(t--){
-        int arr[MAX];
-        int n; cin>>n;
-        for(int i=0;i<MAX;i++) arr[i]=0;
-        arr[0]=1;
-        int size= 1;
-        for(int i=2;i<=n;i++){
-          size =  mul(arr,i,size);
-        }
-        for(int i= size-1;i>=0;i--){
-            cout<<arr[i];
-        }
+        int n,m; cin>>n>>m;
+        int* arr= new int[n];
+        int *arr2= new int [m];
+        for(int i=0;i<n;i++) cin>>arr[i];
+        for(int i=0;i<m;i++) cin>>arr2[i];
+        bool ans = isSub(arr,n,arr2,m);
+        if(ans) cout<<"Yes";
+        else cout<<"No";
+        
         cout<<'\n';
     }
     return 0;

@@ -9,7 +9,7 @@
 #define db3(x,y,z) cout<<#x<<"="<<x<<","<<#y<<"="<<y<<","<<#z<<"="<<z<<'\n'
 #define ff              first
 #define ss              second
-//#define int             long long
+#define int             long long
 #define pb              push_back
 #define mp              make_pair
 #define pii             pair<int,int>
@@ -28,31 +28,29 @@
  
 
 #define mod 1000000007
-#define MAX 100000
+
 using namespace std;
 using ll = long long;
 
-int mul(int *arr, int x, int size){
-    int carry=0;
-    for(int i=0;i<size;i++){
-        int mul = arr[i]*x+carry;
-        arr[i] = mul%10;
-        carry= mul/10;
+bool solve(unordered_map<int,int> &freq ,int *arr, int n,int k){
+    for(int i=0;i<n-1;i++){
+        for(int j=i+1;j<n;j++){
+            if(k-arr[j]-arr[i] >0){
+                freq[arr[i]]--;
+                freq[arr[j]]--;
+                if(freq[k-arr[i]-arr[j]] > 0) {
+                    // db2(arr[i],arr[j]);
+                    // cout << " k- arr[j] -arr[i] " << k - arr[j] - arr[i]<<endl;
+                    return true;
+                }
+                else{
+                    freq[arr[i]]++;
+                    freq[arr[j]]++;
+                }
+            }
+        }
     }
-    // this is wrong because i assumed carry to be one digit but it isnt as numbers increases for eg 2*99 =198 carry 19
-    // though chhote numbers pe chal jaega bc of their small carry ek arr[i] store kar lega but not for big numbers
-//    if(carry > 0){
-//         size++;
-//         arr[size-1]= carry;
-//     }
-    while (carry)
-    {
-        arr[size] = carry % 10;
-        carry = carry / 10;
-        size++;
-    }
-
-    return size;
+    return false;
 }
 
 int32_t main()
@@ -67,17 +65,17 @@ int32_t main()
     int t;
     cin>>t;
     while(t--){
-        int arr[MAX];
-        int n; cin>>n;
-        for(int i=0;i<MAX;i++) arr[i]=0;
-        arr[0]=1;
-        int size= 1;
-        for(int i=2;i<=n;i++){
-          size =  mul(arr,i,size);
+        int n,k; cin>>n>>k;
+        int *arr= new int[n];
+        unordered_map<int,int> freq;
+        for(int i=0;i<n;i++) {
+            cin>>arr[i];
+            freq[arr[i]]++;
         }
-        for(int i= size-1;i>=0;i--){
-            cout<<arr[i];
-        }
+        bool ans= solve(freq,arr,n,k);
+        if(ans) cout<<1;
+        else cout<<0;
+        delete [] arr;
         cout<<'\n';
     }
     return 0;
