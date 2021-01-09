@@ -7,6 +7,7 @@
 #define db1(x) cout<<#x<<"="<<x<<'\n'
 #define db2(x,y) cout<<#x<<"="<<x<<","<<#y<<"="<<y<<'\n'
 #define db3(x,y,z) cout<<#x<<"="<<x<<","<<#y<<"="<<y<<","<<#z<<"="<<z<<'\n'
+#define endl            '\n'
 #define ff              first
 #define ss              second
 #define int             long long
@@ -32,47 +33,47 @@
 using namespace std;
 using ll = long long;
 
-int qs(int *arr,int n){
-    int i=-1;
-    for(int j=0;j<n;j++){
-        if(arr[j]<0){
-            i++;
-            swap(arr[i],arr[j]);
-        }
-    }
-    return i+1;
-
-}
-void rear(int *arr,int pos,int n){
-    int temp=pos;
-    for(int i=1;i<n ;i+=2,pos++){
-        db2(i,pos);
-        if(arr[i]<0 && pos<n)swap(arr[i],arr[pos]);
-        else break;
-        
-    }
-}
-void print(int *arr,int n){
-    for(int i=0;i<n;i++){
-        
-        cout<<arr[i]<<" ";
-    }
-}
 int32_t main()
 {
-    // ios::sync_with_stdio(0);
-    // cin.tie(0);
-    // cout.tie(0);
-    int n; cin>>n;
-    int *arr= new int[n];
-    for(int i=0;i<n;i++){
-        cin>>arr[i];
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    //#ifndef ONLINE_JUDGE
+    //freopen("input.txt", "r", stdin);
+    //freopen("output.txt", "w", stdout);
+    //#endif 
+    int t;
+    cin>>t;
+    while(t--){
+        int n,x; cin>>n>>x;
+        int *arr= new int[n];
+        int sum=0;
+        // bool flag= true;
+        // for(int i=0;i<n;i++){
+        //   cin>>arr[i];
+        //   if(arr[i]%x!=0) flag= false;
+        //   sum+= arr[i];  
+        // } 
+        // if(!flag || sum%x !=0){
+        //     cout<<sum/x<<" "<<sum/x+1;
+        // }
+        // else{
+        //     cout<<sum/x<<" "<<sum/x;
+        // }
+        int min=0,max=0;
+        cin>>arr[0];
+        sum+= arr[0];
+        max += ceil(arr[0]/x*1.0);
+        for(int i=1;i<n;i++){
+            cin>>arr[i];
+            max += ceil(1.0*arr[i]/x);
+            sum+=arr[i];
+            
+          
+        }
+        cout<<ceil(1.0*sum/x)<<" "<<max;
+        cout<<endl;
+
     }
-    int pos= qs(arr,n);
-    print(arr,n);
-    db1(pos);
-    rear(arr,pos,n);
-    print(arr,n);
     return 0;
-    
 }
