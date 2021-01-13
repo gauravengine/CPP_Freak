@@ -1,3 +1,4 @@
+//getting WA
 #pragma GCC optimize("Ofast")
 #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 #pragma GCC optimize("unroll-loops")
@@ -33,7 +34,7 @@
 using namespace std;
 using ll = long long;
 
-int solve(int *h,int k1,int k2,int i,int n,map<pair<int,int>,int> &dp){
+int solve(int *h,int k1,int k2,int i,int n,unordered_map<string,int>  &dp){
     // base cases
     //db1(i);
     if(i==n) {
@@ -44,10 +45,12 @@ int solve(int *h,int k1,int k2,int i,int n,map<pair<int,int>,int> &dp){
         }
         
     }
+    string key= to_string(k1)+"@"+to_string(k2);
+   // string keyi=to_string(k2)+"@"+to_string(k1);
     //db2(k1,k2);
     if(k1<=0 && k2 <=0) return 0;
-    if( dp.find(mp(k1,k2)) != dp.end() )  return dp.at(mp(k1,k2));
-    if( dp.find(mp(k2,k1)) != dp.end() )  return dp.at(mp(k2,k1));
+    if( dp.find(key) != dp.end() )  return dp.at(key);
+    //if( dp.find(keyi) != dp.end() )  return dp.at(keyi);
     int opt1,opt2; //opt3=1e9,opt4=1e9;
     if(k1>0){
        
@@ -58,8 +61,8 @@ int solve(int *h,int k1,int k2,int i,int n,map<pair<int,int>,int> &dp){
         opt2= 1+ solve(h,k1,k2-h[i],i+1,n,dp);
         //opt4= solve(h,k1,k2,i+1,n,dp);
     }
-    dp[{k2,k1}] =min(opt1,opt2);
-    return dp[{k1,k2}] =min(opt1,opt2);
+   // dp[keyi] =min(opt1,opt2);
+    return dp[key] =min(opt1,opt2);
 
 }
 
@@ -86,7 +89,7 @@ int32_t main()
             cout<<-1<<endl;
             continue;
         }
-        map<pair<int,int>,int> dp;
+        unordered_map<string,int> dp;
         sort(h,h+n,greater<int>());
         int ans= solve(h,k,k,0,n,dp);
         if(ans >=1e9 || ans==-1) cout<<-1<<endl;

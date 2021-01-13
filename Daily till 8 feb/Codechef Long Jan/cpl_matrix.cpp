@@ -10,7 +10,7 @@
 #define endl            '\n'
 #define ff              first
 #define ss              second
-#define int             long long
+//#define int             long long
 #define pb              push_back
 #define mp              make_pair
 #define pii             pair<int,int>
@@ -27,15 +27,24 @@
 #define w(x)            int x; cin>>x; while(x--)
 
  
-
+#define MAX 100000
 #define mod 1000000007
 
 using namespace std;
 using ll = long long;
+int** dp = new int*[2*MAX];
 
-int solve(int *h,int k1,int k2,int i,int n,map<pair<int,int>,int> &dp){
+int solve(int *h,int k1,int k2,int i,int n,int** dp){
     // base cases
     //db1(i);
+    // if(k1<0) {
+    //     db2(k1,k2);
+    //     k1=0;
+    // }
+    // if(k2<0){
+    //     db2(k1,k2);
+    //     k2=0;
+    // } 
     if(i==n) {
         if(k1<=0 && k2<=0){
             return 0;
@@ -45,9 +54,11 @@ int solve(int *h,int k1,int k2,int i,int n,map<pair<int,int>,int> &dp){
         
     }
     //db2(k1,k2);
+    
     if(k1<=0 && k2 <=0) return 0;
-    if( dp.find(mp(k1,k2)) != dp.end() )  return dp.at(mp(k1,k2));
-    if( dp.find(mp(k2,k1)) != dp.end() )  return dp.at(mp(k2,k1));
+
+    if(dp[k1+MAX][k2+MAX] >-1) return dp[k1+MAX][k2+MAX];
+    if(dp[k2+MAX][k1+MAX] >-1) return dp[k2+MAX][k1+MAX];
     int opt1,opt2; //opt3=1e9,opt4=1e9;
     if(k1>0){
        
@@ -58,11 +69,20 @@ int solve(int *h,int k1,int k2,int i,int n,map<pair<int,int>,int> &dp){
         opt2= 1+ solve(h,k1,k2-h[i],i+1,n,dp);
         //opt4= solve(h,k1,k2,i+1,n,dp);
     }
-    dp[{k2,k1}] =min(opt1,opt2);
-    return dp[{k1,k2}] =min(opt1,opt2);
+    dp[k2+MAX][k1+MAX] =min(opt1,opt2);
+    
+    
+    return dp[k1+MAX][k2+MAX] =min(opt1,opt2);;
 
 }
-
+void print(int**dp,int k){
+    for(int i=0;i<=k;i++){    
+        for(int j=0;j<=k;j++){
+            cout<<dp[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+}
 int32_t main()
 {
     ios::sync_with_stdio(0);
@@ -86,9 +106,16 @@ int32_t main()
             cout<<-1<<endl;
             continue;
         }
-        map<pair<int,int>,int> dp;
+       // int** dp = new int*[2*MAX];
+        for(int i=0;i<2*MAX;i++){
+            dp[i]= new int[2*MAX];
+            for(int j=0;j<2*MAX;j++){
+                dp[i][j]=-1;
+            }
+        }
         sort(h,h+n,greater<int>());
         int ans= solve(h,k,k,0,n,dp);
+        //print(dp,k);
         if(ans >=1e9 || ans==-1) cout<<-1<<endl;
         else cout<<ans<<"\n";
     }

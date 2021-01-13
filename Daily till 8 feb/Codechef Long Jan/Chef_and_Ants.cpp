@@ -2,7 +2,7 @@
 #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 #pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
-#include<unordered_map>
+
 
 #define db1(x) cout<<#x<<"="<<x<<'\n'
 #define db2(x,y) cout<<#x<<"="<<x<<","<<#y<<"="<<y<<'\n'
@@ -33,36 +33,6 @@
 using namespace std;
 using ll = long long;
 
-int solve(int *h,int k1,int k2,int i,int n,map<pair<int,int>,int> &dp){
-    // base cases
-    //db1(i);
-    if(i==n) {
-        if(k1<=0 && k2<=0){
-            return 0;
-        }else{
-            return 1e9;
-        }
-        
-    }
-    //db2(k1,k2);
-    if(k1<=0 && k2 <=0) return 0;
-    if( dp.find(mp(k1,k2)) != dp.end() )  return dp.at(mp(k1,k2));
-    if( dp.find(mp(k2,k1)) != dp.end() )  return dp.at(mp(k2,k1));
-    int opt1,opt2; //opt3=1e9,opt4=1e9;
-    if(k1>0){
-       
-        opt1= 1+ solve(h,k1-h[i],k2,i+1,n,dp);
-        //opt2= solve(h,k1,k2,i+1,n,dp);
-    }
-    if(k2>0){
-        opt2= 1+ solve(h,k1,k2-h[i],i+1,n,dp);
-        //opt4= solve(h,k1,k2,i+1,n,dp);
-    }
-    dp[{k2,k1}] =min(opt1,opt2);
-    return dp[{k1,k2}] =min(opt1,opt2);
-
-}
-
 int32_t main()
 {
     ios::sync_with_stdio(0);
@@ -75,22 +45,20 @@ int32_t main()
     int t;
     cin>>t;
     while(t--){
-        int n,k; cin>>n>>k;
-        int *h= new int[n];
-        int sum=0;
-        for(int i=0;i<n;i++) {
-            cin>>h[i];
-            sum+=h[i];
+        int n; cin>>n;
+        if(n==1){
+            int cp=0,cn=0;
+            int m; cin>>m;
+            for(int i=0;i<m;i++){
+                int x; cin>>x;
+                if(x>0) cp++;
+                else cn++;
+            }
+            cout<<(cp*cn)<<endl;
         }
-        if(sum < 2*k || n==1) {
-            cout<<-1<<endl;
-            continue;
+        else{
+            break;
         }
-        map<pair<int,int>,int> dp;
-        sort(h,h+n,greater<int>());
-        int ans= solve(h,k,k,0,n,dp);
-        if(ans >=1e9 || ans==-1) cout<<-1<<endl;
-        else cout<<ans<<"\n";
     }
     return 0;
 }
