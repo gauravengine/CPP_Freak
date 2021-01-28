@@ -20,8 +20,9 @@ void djikstra(int** edges , int v){
 	bool * visited = new bool[v]();
 	int* distance= new int[v];
 	for(int i=0;i<v;i++) distance[i] = INT_MAX;
-
-	distance[0]=0;
+	int *parent= new int[v];
+	for(int i=0;i<v;i++) parent[i]=i;
+	distance[0]=0; // let src be 0
 	for(int i=0;i<v-1;i++){
 		int x= min_distance(distance , visited ,v);
 		visited[x]= true;
@@ -30,6 +31,7 @@ void djikstra(int** edges , int v){
 
 				// update distance if greater
 				if(distance[j] > distance[x] + edges[x][j]){
+					parent[j]= x;
 					distance[j] = distance[x] + edges[x][j];
 				}
 
@@ -45,7 +47,10 @@ void djikstra(int** edges , int v){
 	for(int i=0;i<v;i++){
 		cout<<i<<" "<<distance[i]<<"\n";
 	}
-
+	cout<<"printing parent array :"<<endl;
+	for(int i=0;i<v;i++){
+		cout<<"parent of "<<i<<" : "<<parent[i]<<endl;
+	}
 
 
 }

@@ -28,27 +28,6 @@
 #define mod 1000000007
 using namespace std;
 using ll = long long;
-
-bool solve(int *arr,int n, int mid,int p){
-    // have to calculate whether p parathas are possible in mid time or not?
-    int count=0;
-    for(int i=0;i<n;i++){
-        int r= arr[i]; // current halwai rank
-        int x=1;
-        int temp=x*r;
-        while(temp <= mid){
-            count++;
-            x++;
-            temp+= x*r;
-        }
-
-        if(count>=p) break;
-    }
-    if(count >= p) return true;
-    else return false;
-
-}
-
 int32_t main()
 {
     ios::sync_with_stdio(0);
@@ -58,31 +37,23 @@ int32_t main()
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     //#endif 
-    int t;
-    cin>>t;
-    while(t--){
-        int p,l; cin>>p>>l;
-        
-        // p parathas ordered l cooks available
-        int *ranks= new int[l];
-        for(int i=0;i<l;i++){
-            cin>>ranks[i];
-        }  
-        sort(ranks,ranks+l);
-        int low=0; int high= ranks[l-1]*((p)*(p+1)/2);
-        //db1(high);
-        int ans=0;
-        while(low<=high){
-            int mid= low+(high-low)/2;
-            if(solve(ranks,l,mid,p)){
-                ans = mid;
-                high=mid-1; // isse kam time me hoga kya ?
-            }
-            else {
-                low= mid+1;
-            }
+    string s1,s2;
+    cin>>s1>>s2;
+    int n= s1.length();
+    bool flag1= false;
+    bool flag2=false;
+    for(int i=0;i<n;i++){
+        if(tolower(s1[i]) < tolower(s2[i])) {
+            flag1= true;
+            break;
         }
-        cout<<ans<<endl;
+        if(tolower(s2[i]) < tolower(s1[i])) {
+            flag2=true;
+            break;
+        }
     }
+    if(flag1) cout<<-1;
+    else if(flag2) cout<<1;
+    else cout<<0;
     return 0;
 }

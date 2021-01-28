@@ -28,27 +28,6 @@
 #define mod 1000000007
 using namespace std;
 using ll = long long;
-
-bool solve(int *arr,int n, int mid,int p){
-    // have to calculate whether p parathas are possible in mid time or not?
-    int count=0;
-    for(int i=0;i<n;i++){
-        int r= arr[i]; // current halwai rank
-        int x=1;
-        int temp=x*r;
-        while(temp <= mid){
-            count++;
-            x++;
-            temp+= x*r;
-        }
-
-        if(count>=p) break;
-    }
-    if(count >= p) return true;
-    else return false;
-
-}
-
 int32_t main()
 {
     ios::sync_with_stdio(0);
@@ -58,31 +37,45 @@ int32_t main()
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     //#endif 
-    int t;
-    cin>>t;
-    while(t--){
-        int p,l; cin>>p>>l;
-        
-        // p parathas ordered l cooks available
-        int *ranks= new int[l];
-        for(int i=0;i<l;i++){
-            cin>>ranks[i];
-        }  
-        sort(ranks,ranks+l);
-        int low=0; int high= ranks[l-1]*((p)*(p+1)/2);
-        //db1(high);
-        int ans=0;
-        while(low<=high){
-            int mid= low+(high-low)/2;
-            if(solve(ranks,l,mid,p)){
-                ans = mid;
-                high=mid-1; // isse kam time me hoga kya ?
-            }
-            else {
-                low= mid+1;
+    string s; cin>>s;
+    bool arr[5];
+    for(int i=0;i<5;i++) arr[i]= false;
+    int i=0;
+    for(int j=0;j<s.length();j++){
+        bool flag = false;
+        if(i==0){
+            if(s[j]=='h'){
+                arr[i]= true;
+                flag=true;
             }
         }
-        cout<<ans<<endl;
+        if(i==1){
+            if(s[j]=='e'){
+                arr[i]= true;
+                flag=true;
+            }
+        }
+        if(i==2){
+            if(s[j]=='l'){
+                arr[i]= true;
+                flag=true;
+            }
+        }if(i==3){
+            if(s[j]=='l'){
+                arr[i]= true;
+                flag=true;
+            }
+        }if(i==4){
+            if(s[j]=='o'){
+                arr[i]= true;
+                flag=true;
+            }
+        }
+        if(flag){
+            i++;
+        }
     }
+    if(i==5) cout<<"YES";
+    else cout<<"NO";
     return 0;
 }

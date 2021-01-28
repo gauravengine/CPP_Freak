@@ -29,24 +29,17 @@
 using namespace std;
 using ll = long long;
 
-bool solve(int *arr,int n, int mid,int p){
-    // have to calculate whether p parathas are possible in mid time or not?
-    int count=0;
-    for(int i=0;i<n;i++){
-        int r= arr[i]; // current halwai rank
-        int x=1;
-        int temp=x*r;
-        while(temp <= mid){
-            count++;
-            x++;
-            temp+= x*r;
+bool lucky(int n){
+    //cout<<"hola";
+    while(n>=1){
+        if(n%10 !=4 && n%10 !=7 ){
+            //db1(n%10);
+            return false;
         }
-
-        if(count>=p) break;
+        n=n/10;
+       // db1(n);
     }
-    if(count >= p) return true;
-    else return false;
-
+    return true;
 }
 
 int32_t main()
@@ -58,31 +51,29 @@ int32_t main()
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     //#endif 
-    int t;
-    cin>>t;
-    while(t--){
-        int p,l; cin>>p>>l;
-        
-        // p parathas ordered l cooks available
-        int *ranks= new int[l];
-        for(int i=0;i<l;i++){
-            cin>>ranks[i];
-        }  
-        sort(ranks,ranks+l);
-        int low=0; int high= ranks[l-1]*((p)*(p+1)/2);
-        //db1(high);
-        int ans=0;
-        while(low<=high){
-            int mid= low+(high-low)/2;
-            if(solve(ranks,l,mid,p)){
-                ans = mid;
-                high=mid-1; // isse kam time me hoga kya ?
-            }
-            else {
-                low= mid+1;
+    int n; cin>>n;
+    // if(lucky(n)){
+    //     cout<<"YES";
+    // }
+    // while(n>1){
+    //     if(lucky(n)){
+    //         flag = true;
+    //         break;
+    //     }
+    //     else{
+    //     }
+    // }
+
+    for(int i=1;i<=n;i++){
+        if(lucky(i)){
+            if(n%i==0){
+                //db1(i);
+                cout<<"YES";
+                return 0;
             }
         }
-        cout<<ans<<endl;
     }
+    cout<<"NO";
+
     return 0;
 }

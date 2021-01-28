@@ -29,24 +29,16 @@
 using namespace std;
 using ll = long long;
 
-bool solve(int *arr,int n, int mid,int p){
-    // have to calculate whether p parathas are possible in mid time or not?
-    int count=0;
-    for(int i=0;i<n;i++){
-        int r= arr[i]; // current halwai rank
-        int x=1;
-        int temp=x*r;
-        while(temp <= mid){
-            count++;
-            x++;
-            temp+= x*r;
-        }
-
-        if(count>=p) break;
-    }
-    if(count >= p) return true;
-    else return false;
-
+int solve(int n,int* dp){
+    if(n<1) return 1e8;
+    if(n==1) return 0;
+    if(dp[n] > -1) return dp[n];
+    int ans1=1+solve(n-1,dp);
+    int ans2=INT_MAX;
+    int ans3=INT_MAX;
+    if(n%2==0) ans2=1+solve(n/2,dp);
+    if(n%3==0) ans3=1+ solve(n/3,dp);
+    return dp[n]=min(ans1,min(ans2,ans3));
 }
 
 int32_t main()
@@ -58,31 +50,13 @@ int32_t main()
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     //#endif 
-    int t;
-    cin>>t;
-    while(t--){
-        int p,l; cin>>p>>l;
-        
-        // p parathas ordered l cooks available
-        int *ranks= new int[l];
-        for(int i=0;i<l;i++){
-            cin>>ranks[i];
-        }  
-        sort(ranks,ranks+l);
-        int low=0; int high= ranks[l-1]*((p)*(p+1)/2);
-        //db1(high);
-        int ans=0;
-        while(low<=high){
-            int mid= low+(high-low)/2;
-            if(solve(ranks,l,mid,p)){
-                ans = mid;
-                high=mid-1; // isse kam time me hoga kya ?
-            }
-            else {
-                low= mid+1;
-            }
-        }
-        cout<<ans<<endl;
+    int t; cin>>t;
+    for(int i=1;i<=t;i++){
+        int n; cin>>n;
+        int* dp= new int[n+1];
+        for(int j=0;j<=n;j++) dp[j]=-1;
+        int ans= solve(n,dp);
+        cout<<"Case"<<" "<<i<<": "<<ans<<endl;
     }
     return 0;
 }
