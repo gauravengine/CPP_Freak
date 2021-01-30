@@ -10,7 +10,7 @@
 #define ff              first
 #define endl            '\n'
 #define ss              second
-//#define int             long long
+#define int             long long
 #define pb              push_back
 #define mp              make_pair
 #define pii             pair<int,int>
@@ -29,17 +29,20 @@
 using namespace std;
 using ll = long long;
 
-// int solve(int n,unordered_map<int,int> &dp){
-//     if(n<1) return 1e8;
-//     if(n==1) return 0;
-//     if(dp.find(n)!=dp.end()) return dp.at(n);
-//     int ans2=INT_MAX;
-//     int ans3=INT_MAX;
-//     if(n%2==0) ans2=1+solve(n/2,dp);
-//     if(n%3==0) ans3=1+ solve(n/3,dp);
-//     int ans1=1+solve(n-1,dp);
-//     return dp[n]=min(ans1,min(ans2,ans3));
-// }
+int solve(int last_bit,int n,int l,int** dp){
+    // base case
+    if (l==n) return 1;
+
+    if(dp[last_bit][l] >-1) return dp[last_bit][l];
+
+    if(last_bit==0){
+        return dp[last_bit][l]=solve(1,n,l+1,dp)+solve(0,n,l+1,dp);
+    }
+    else{
+        return dp[last_bit][l]=solve(0,n,l+1,dp);
+    }
+    
+}
 
 int32_t main()
 {
@@ -50,26 +53,16 @@ int32_t main()
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     //#endif 
-    vector<int> cache(20000005);
-    cache[0]=0;
-    cache[1]=0;
-    for(int i=2;i<20000005;i++){
-        int x= 1+ cache[i-1];
-        int y=1e7;
-        int z=1e7;
-        if(i%2==0) y=1+cache[i/2];
-        if(i%3==0) z=1+ cache[i/3];
-        cache[i]= min(x,min(y,z)); 
-    }
-    int t; cin>>t;
-    for(int i=1;i<=t;i++){
-        int j; cin>>j;
-        // // int* dp= new int[n+1];
-        // // for(int j=0;j<=n;j++) dp[j]=-1;
-        // unordered_map<int,int> dp;
-        //int ans= cache[j];
-        cout<<"Case "<<i<<": "<<cache[j]<<endl;
-        //free(dp);
+    int t;
+    cin>>t;
+    while(t--){
+        int n; cin>>n;
+        int** dp= new int*[2];
+        for(int i=0;i<2;i++){
+            dp[i]= new int[n+1];
+            for(int j=0;j<=n;j++) dp[i][j]=-1;
+        }
+        cout<<solve(0,n,1,dp)+solve(1,n,1,dp)<<'\n';
     }
     return 0;
 }

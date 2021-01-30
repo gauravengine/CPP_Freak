@@ -1,0 +1,1 @@
+{"name":"Local: tiling_prob_ii","url":"c:\\Users\\gengi\\Documents\\GitHub\\CPP_Freak\\Dynamic_Programming\\tiling_prob_ii.cpp","tests":[{"id":1611933117824,"input":"2\n2 3\n4 4","output":"1\n2"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\gengi\\Documents\\GitHub\\CPP_Freak\\Dynamic_Programming\\tiling_prob_ii.cpp","group":"local","local":true}
