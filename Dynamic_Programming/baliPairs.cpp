@@ -29,36 +29,71 @@
 using namespace std;
 using ll = long long;
 
-bool solve(int l,int r,string &s,int** dp){
-    if(l>r) return true;
-    if(dp[l][r] >-1) return dp[l][r];
-    
-    return dp[l][r]=solve(l+1,r-1,s,dp) && (s[l]==s[r]);
-
+inline int pow(int a, int b)
+{
+     int x = 1;
+     while (b)
+     {
+          if (b & 1) x *= a;
+          a *= a;
+          b >>= 1;
+     }
+     return x;
 }
+
 
 int32_t main()
 {
     ios::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-    //#ifndef ONLINE_JUDGE
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
-    //#endif 
+    // #ifndef ONLINE_JUDGE
+    // freopen("input.txt", "r", stdin);
+    // freopen("output.txt", "w", stdout);
+    // #endif 
     int n; cin>>n;
-    string s; cin>>s;
-    int** dp= new int*[n];
+
+
+    
+
+    int oo=0,oe=0,ee=0;
+
     for(int i=0;i<n;i++){
-        dp[i]= new int[n];
-        for(int j=0;j<n;j++) dp[i][j]=-1;
+        int x,y; cin>>x>>y;
+        if(x%2==0 && y%2==0) ee++;
+        else if(x%2!=0 && y%2!=0) oo++;
+        else oe++;
     }
-    int q; cin>>q; 
-    while(q--){
-        int l,r; cin>>l>>r;
-        l--; r--;
-        if(solve(l,r,s,dp)) cout<<"YES"<<'\n';
-        else cout<<"NO"<<'\n';
+    if(oe==0){
+        if(oo==0){
+            cout<<0<<'\n';
+           
+        }
+        else{
+            if(oo %2==0){
+                cout<<0<<'\n';
+            }
+            else{
+                //int x=((int)pow(2,n))%mod;
+                int x=1;
+                for(int i=1;i<=n;i++){
+                    x =(x*2)%mod;
+                }
+
+                cout<<x<<'\n';
+            }
+        }
+
+    }else{
+       // int x=((int)pow(2,n-1))%mod;
+        int x=1;
+        for(int i=1;i<=n-1;i++){
+                    x =(x*2)%mod;
+        }
+        cout<<x<<'\n';
     }
+
+    
+
     return 0;
 }

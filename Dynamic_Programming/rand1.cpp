@@ -29,11 +29,22 @@
 using namespace std;
 using ll = long long;
 
-bool solve(int l,int r,string &s,int** dp){
-    if(l>r) return true;
-    if(dp[l][r] >-1) return dp[l][r];
-    
-    return dp[l][r]=solve(l+1,r-1,s,dp) && (s[l]==s[r]);
+int solve(int* arr, int &n,int curr,int streak,int** dp){
+
+    if(curr>=n) return 0;
+
+    if(dp[streak][curr]!=-1) return dp[streak][curr];
+
+    if(streak==2){
+        return dp[streak][curr]=solve(arr,n,curr+1,0,dp);
+    }
+    else{
+        int op1=arr[curr] + solve(arr,n,curr+1,streak+1,dp);
+        int op2= solve(arr,n,curr+1,0,dp);
+        return dp[streak][curr]=max(op1,op2);
+    }
+
+    return 0;
 
 }
 
@@ -42,23 +53,22 @@ int32_t main()
     ios::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-    //#ifndef ONLINE_JUDGE
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
-    //#endif 
+    #ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+    #endif 
     int n; cin>>n;
-    string s; cin>>s;
-    int** dp= new int*[n];
-    for(int i=0;i<n;i++){
-        dp[i]= new int[n];
-        for(int j=0;j<n;j++) dp[i][j]=-1;
+    int* arr= new int[n];
+
+    int** dp = new int*[4];
+    for(int i=0;i<4;i++){
+        dp[i]= new int[n+1];
+        for(int j=0;j<=n;j++) dp[i][j]=-1;
     }
-    int q; cin>>q; 
-    while(q--){
-        int l,r; cin>>l>>r;
-        l--; r--;
-        if(solve(l,r,s,dp)) cout<<"YES"<<'\n';
-        else cout<<"NO"<<'\n';
-    }
+
+    for(int i=0;i<n;i++) cin>>arr[i];
+    cout<<"hello world";
+    cout<<solve(arr,n,0,0,dp);
+    
     return 0;
 }

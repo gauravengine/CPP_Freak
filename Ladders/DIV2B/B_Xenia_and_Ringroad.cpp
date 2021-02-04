@@ -28,15 +28,6 @@
 #define mod 1000000007
 using namespace std;
 using ll = long long;
-
-bool solve(int l,int r,string &s,int** dp){
-    if(l>r) return true;
-    if(dp[l][r] >-1) return dp[l][r];
-    
-    return dp[l][r]=solve(l+1,r-1,s,dp) && (s[l]==s[r]);
-
-}
-
 int32_t main()
 {
     ios::sync_with_stdio(0);
@@ -46,19 +37,20 @@ int32_t main()
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     //#endif 
-    int n; cin>>n;
-    string s; cin>>s;
-    int** dp= new int*[n];
-    for(int i=0;i<n;i++){
-        dp[i]= new int[n];
-        for(int j=0;j<n;j++) dp[i][j]=-1;
+    int n,m; cin>>n>>m;
+    int* arr= new int[m];
+    for(int i=0;i<m;i++) cin>>arr[i];
+    int dist=0;
+    int curr=1;
+    for(int i=0;i<m;i++){
+        if(arr[i]>=curr) dist+=arr[i]-curr;
+        else{
+            dist+= n-curr+arr[i];
+        }
+        curr=arr[i];
     }
-    int q; cin>>q; 
-    while(q--){
-        int l,r; cin>>l>>r;
-        l--; r--;
-        if(solve(l,r,s,dp)) cout<<"YES"<<'\n';
-        else cout<<"NO"<<'\n';
-    }
+    cout<<dist;
+
+
     return 0;
 }

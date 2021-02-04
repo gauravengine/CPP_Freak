@@ -29,11 +29,19 @@
 using namespace std;
 using ll = long long;
 
-bool solve(int l,int r,string &s,int** dp){
-    if(l>r) return true;
-    if(dp[l][r] >-1) return dp[l][r];
-    
-    return dp[l][r]=solve(l+1,r-1,s,dp) && (s[l]==s[r]);
+int solve(int curr,int n,int &x,int &y,int &z){
+   int*dp= new int[n+1];
+   dp[0]=0;
+   dp[1]=0;
+   for(int i=2;i<=n;i++){
+	   if(i%2==0){
+		dp[i]=min(dp[i/2]+x,dp[i-1]+y);
+	   }else{
+		   dp[i]=min(dp[(i+1)/2]+x+z,dp[i-1]+y);
+	   }
+   }
+   
+	return dp[n];
 
 }
 
@@ -47,18 +55,11 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif 
     int n; cin>>n;
-    string s; cin>>s;
-    int** dp= new int*[n];
-    for(int i=0;i<n;i++){
-        dp[i]= new int[n];
-        for(int j=0;j<n;j++) dp[i][j]=-1;
-    }
-    int q; cin>>q; 
-    while(q--){
-        int l,r; cin>>l>>r;
-        l--; r--;
-        if(solve(l,r,s,dp)) cout<<"YES"<<'\n';
-        else cout<<"NO"<<'\n';
-    }
+    int x,y,z; cin>>x>>y>>z;
+    
+    
+
+    cout<<solve(1,n,x,y,z);
+
     return 0;
 }
