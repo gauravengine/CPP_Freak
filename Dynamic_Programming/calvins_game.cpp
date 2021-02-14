@@ -38,8 +38,8 @@ using ll = long long;
 //         return arr[1];
 //     }
 
-//     if(dp[bit][curr] !=-1) return dp[bit][curr]; 
-    
+//     if(dp[bit][curr] !=-1) return dp[bit][curr];
+
 //     if(bit==1){
 //         // four moves
 //        // db2("inside1",curr);
@@ -65,37 +65,37 @@ int32_t main()
     ios::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-    //#ifndef ONLINE_JUDGE
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
-    //#endif 
-    int n,k; cin>>n>>k;
-    int *arr= new int[n+1];
-    arr[0]=0;
-    for(int i=1;i<=n;i++){ //such idiot i am ;-)
-        cin>>arr[i];
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+    int n, k; cin >> n >> k;
+    int *arr = new int[n + 1];
+    arr[0] = 0;
+    for (int i = 1; i <= n; i++) { //such idiot i am ;-)
+        cin >> arr[i];
     }
-    
-    int *dpf= new int[n+1];
-    dpf[k+1]=arr[k+1];
-    dpf[k+2]= max( arr[k+2], dpf[k+1]+arr[k+2] );
-    for(int i=k+3;i<=n;i++){
-        dpf[i]=arr[i]+max(dpf[i-1],dpf[i-2]);
+
+    int *dpf = new int[n + 1];
+    dpf[k + 1] = arr[k + 1];
+    dpf[k + 2] = max( arr[k + 2], dpf[k + 1] + arr[k + 2] );
+    for (int i = k + 3; i <= n; i++) {
+        dpf[i] = arr[i] + max(dpf[i - 1], dpf[i - 2]);
     }
-    int* dpb= new int[n+1];
-    dpb[0]=0;
-    dpb[1]= arr[1];
-    dpb[2]=arr[1]+arr[2];
-    for(int i=3;i<=n;i++){
-        dpb[i]= arr[i]+max(dpb[i-1],dpb[i-2]);
+    int* dpb = new int[n + 1];
+    dpb[0] = 0;
+    dpb[1] = arr[1];
+    dpb[2] = arr[1] + arr[2];
+    for (int i = 3; i <= n; i++) {
+        dpb[i] = arr[i] + max(dpb[i - 1], dpb[i - 2]);
     }
-    int ans= max(dpb[k-1],dpb[k-2]);
-    for(int i=k+1;i<=n;i++){
-        ans= max(ans,dpf[i]+dpb[i]-arr[i]);
+    int ans = max(dpb[k - 1], dpb[k - 2]);
+    for (int i = k + 1; i <= n; i++) {
+        ans = max(ans, dpf[i] + dpb[i] - arr[i]);
     }
-    cout<<ans;
+    cout << ans;
     // for(int i=0;i<2;i++){
-        
+
     //     for(int j=0;j<=n;j++){
     //         cout<<dp[i][j]<<" ";
     //     }
