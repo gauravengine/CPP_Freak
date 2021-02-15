@@ -28,6 +28,14 @@
 #define mod 1000000007
 using namespace std;
 using ll = long long;
+
+int solve(int n,unordered_map<int,int> &dp){
+	// n or n/2+n/3+n/4 all lower_bound
+	if(n==0) return 0;
+	if(dp.find(n)!= dp.end() ) return dp[n];
+	return dp[n]=max(n,solve(n/2,dp)+solve(n/3,dp)+solve(n/4,dp));
+}
+
 int32_t main()
 {
     ios::sync_with_stdio(0);
@@ -37,37 +45,9 @@ int32_t main()
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     //#endif  
-    int n; cin>>n;
-    int* arr= new int[n];
-    for(int i=0;i<n;i++) cin>>arr[i];
-    int leftbig= arr[0];
-    int ans=0;
-    for(int i=0;i<n;i++){
-        if(leftbig>=arr[i]) {
-            ans+= leftbig-arr[i];
-           // db1(ans);
-        }
-        else{
-            leftbig= arr[i];
-        }
-    }
-    int rightbig=arr[n-1];
-   // cout<<"hola";
-    for(int i=n-1;i>=0;i--){
-        if(leftbig ==arr[i]) break;
-        else {
-            ans = ans-(leftbig - arr[i]);
-            //db1(ans);
-        }
-
-        if(rightbig>=arr[i]) ans+= rightbig-arr[i];
-        else{
-            rightbig= arr[i];
-
-        }
-    }
-
-    cout<<ans;
-
+   	int n; cin>>n;
+   	unordered_map<int,int> dp;
+   	cout<<solve(n,dp); 
+   
     return 0;
 }

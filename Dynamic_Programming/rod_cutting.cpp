@@ -28,6 +28,18 @@
 #define mod 1000000007
 using namespace std;
 using ll = long long;
+
+int solve(int n,int* prices,unordered_map<int,int> &dp){
+	//db1(n);
+	if(n<=0) return 0;
+	if(dp.find(n) != dp.end()) return dp[n];
+	int ans= prices[n];
+	for(int i=1;i<n;i++){
+		ans= max(ans,prices[i]+solve(n-i,prices,dp));
+	}
+	return dp[n]=ans;
+}
+
 int32_t main()
 {
     ios::sync_with_stdio(0);
@@ -38,36 +50,13 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif  
     int n; cin>>n;
-    int* arr= new int[n];
-    for(int i=0;i<n;i++) cin>>arr[i];
-    int leftbig= arr[0];
-    int ans=0;
-    for(int i=0;i<n;i++){
-        if(leftbig>=arr[i]) {
-            ans+= leftbig-arr[i];
-           // db1(ans);
-        }
-        else{
-            leftbig= arr[i];
-        }
+    int* prices= new int[n+1];
+    prices[0]=0;
+    for(int i=1;i<=n;i++){
+    	cin>>prices[i];
     }
-    int rightbig=arr[n-1];
-   // cout<<"hola";
-    for(int i=n-1;i>=0;i--){
-        if(leftbig ==arr[i]) break;
-        else {
-            ans = ans-(leftbig - arr[i]);
-            //db1(ans);
-        }
-
-        if(rightbig>=arr[i]) ans+= rightbig-arr[i];
-        else{
-            rightbig= arr[i];
-
-        }
-    }
-
-    cout<<ans;
-
+    unordered_map<int,int> dp;
+    cout<<solve(n,prices,dp);
     return 0;
+    
 }

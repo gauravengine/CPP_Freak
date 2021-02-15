@@ -38,36 +38,28 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif  
     int n; cin>>n;
-    int* arr= new int[n];
-    for(int i=0;i<n;i++) cin>>arr[i];
-    int leftbig= arr[0];
-    int ans=0;
-    for(int i=0;i<n;i++){
-        if(leftbig>=arr[i]) {
-            ans+= leftbig-arr[i];
-           // db1(ans);
-        }
-        else{
-            leftbig= arr[i];
-        }
+    // int* dp= new int[n+1];
+    // dp[0]=0;
+    // dp[1]=1;
+    // dp[2]=2;
+    // for(int i=3;i<=n;i++){
+    // 	dp[i]= dp[i-1]+dp[i-2];
+    // }
+    // cout<<dp[n];
+    int a=1,b=2,c;
+    if(n==1){
+    	cout<<1;
+    	return 0;
     }
-    int rightbig=arr[n-1];
-   // cout<<"hola";
-    for(int i=n-1;i>=0;i--){
-        if(leftbig ==arr[i]) break;
-        else {
-            ans = ans-(leftbig - arr[i]);
-            //db1(ans);
-        }
-
-        if(rightbig>=arr[i]) ans+= rightbig-arr[i];
-        else{
-            rightbig= arr[i];
-
-        }
+    if(n==2){
+    	cout<<2;
+    	return 0;
     }
-
-    cout<<ans;
-
+    for(int i=3;i<=n;i++){
+    	c=(a+b)%mod;
+    	a=b%mod;
+    	b=c%mod;
+    }
+    cout<<c;
     return 0;
 }

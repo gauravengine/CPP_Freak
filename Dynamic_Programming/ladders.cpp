@@ -28,6 +28,20 @@
 #define mod 1000000007
 using namespace std;
 using ll = long long;
+
+int solve(int* arr,int curr,int n,int k, unordered_map<int,int> &dp){
+	if(arr[curr]==1) return 0; // mamba here
+	if(curr==n-1) return 1;
+	if(curr>n-1) return 0;
+	if(dp.find(curr)!= dp.end()) return dp[curr];
+	int ans=0;
+
+	for(int i=1;i<=k;i++){
+		ans+= solve(arr,curr+i,n,k,dp);
+	}
+	return dp[curr]=ans;
+}
+
 int32_t main()
 {
     ios::sync_with_stdio(0);
@@ -37,37 +51,12 @@ int32_t main()
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     //#endif  
-    int n; cin>>n;
+    int n,k; cin>>n>>k;
     int* arr= new int[n];
-    for(int i=0;i<n;i++) cin>>arr[i];
-    int leftbig= arr[0];
-    int ans=0;
     for(int i=0;i<n;i++){
-        if(leftbig>=arr[i]) {
-            ans+= leftbig-arr[i];
-           // db1(ans);
-        }
-        else{
-            leftbig= arr[i];
-        }
+    	cin>>arr[i];
     }
-    int rightbig=arr[n-1];
-   // cout<<"hola";
-    for(int i=n-1;i>=0;i--){
-        if(leftbig ==arr[i]) break;
-        else {
-            ans = ans-(leftbig - arr[i]);
-            //db1(ans);
-        }
-
-        if(rightbig>=arr[i]) ans+= rightbig-arr[i];
-        else{
-            rightbig= arr[i];
-
-        }
-    }
-
-    cout<<ans;
-
+    unordered_map<int,int> dp;
+    cout<<solve(arr,0,n,k,dp);
     return 0;
 }

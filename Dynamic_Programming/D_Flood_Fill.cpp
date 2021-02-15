@@ -28,6 +28,18 @@
 #define mod 1000000007
 using namespace std;
 using ll = long long;
+
+int solve(vector<int> &arr,int l,int r,int** dp){
+
+    if(l>=r) return 0;
+    if(dp[l][r]!=-1) return dp[l][r];
+    if(arr[l]==arr[r]) return dp[l][r]=1+ solve(arr,l+1,r-1,dp);
+    else{
+        return dp[l][r]= min(1+solve(arr,l+1,r,dp),1+solve(arr,l,r-1,dp));
+    }
+    return 0;
+}
+
 int32_t main()
 {
     ios::sync_with_stdio(0);
@@ -36,38 +48,24 @@ int32_t main()
     //#ifndef ONLINE_JUDGE
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-    //#endif  
+    //#endif 
     int n; cin>>n;
-    int* arr= new int[n];
-    for(int i=0;i<n;i++) cin>>arr[i];
-    int leftbig= arr[0];
-    int ans=0;
+    int* arr2= new int[n];
     for(int i=0;i<n;i++){
-        if(leftbig>=arr[i]) {
-            ans+= leftbig-arr[i];
-           // db1(ans);
-        }
-        else{
-            leftbig= arr[i];
-        }
+        cin>>arr2[i];
     }
-    int rightbig=arr[n-1];
-   // cout<<"hola";
-    for(int i=n-1;i>=0;i--){
-        if(leftbig ==arr[i]) break;
-        else {
-            ans = ans-(leftbig - arr[i]);
-            //db1(ans);
-        }
-
-        if(rightbig>=arr[i]) ans+= rightbig-arr[i];
-        else{
-            rightbig= arr[i];
-
-        }
+    vector<int> arr;
+    arr.push_back(arr2[0]);
+    for(int i=1;i<n;i++){
+        if(arr2[i]==arr.back()) continue;
+        else arr.push_back(arr2[i]);
     }
-
-    cout<<ans;
+    int** dp= new int*[n];
+    for(int i=0;i<n;i++){
+        dp[i]= new int[n];
+        for(int j=0;j<n;j++) dp[i][j]=-1;
+    }
+    cout<<solve (arr,0,arr.size()-1,dp);
 
     return 0;
 }

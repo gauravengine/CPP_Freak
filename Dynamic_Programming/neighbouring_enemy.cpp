@@ -28,46 +28,42 @@
 #define mod 1000000007
 using namespace std;
 using ll = long long;
+#define maxi 100005
+
+
+
+int solve(int* arr, int curr, int n,vector<bool> isValid) {
+
+	if (curr > n - 1) return 0;
+	if (isValid[arr[curr]]) {
+		db1(arr[curr]);
+		isValid[arr[curr] - 1] = 0;
+		isValid[arr[curr] + 1] = 0;
+		int op1 = arr[curr] + solve(arr, curr + 1, n,isValid);
+		isValid[arr[curr] - 1] = 1;
+		isValid[arr[curr] + 1] = 1;
+		int op2 = solve(arr, curr + 1, n,isValid);
+		return max(op1, op2) ;
+	}
+	else {
+		return solve(arr, curr + 1, n,isValid);
+	}
+	return 0;
+}
+
 int32_t main()
 {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-    //#ifndef ONLINE_JUDGE
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
-    //#endif  
-    int n; cin>>n;
-    int* arr= new int[n];
-    for(int i=0;i<n;i++) cin>>arr[i];
-    int leftbig= arr[0];
-    int ans=0;
-    for(int i=0;i<n;i++){
-        if(leftbig>=arr[i]) {
-            ans+= leftbig-arr[i];
-           // db1(ans);
-        }
-        else{
-            leftbig= arr[i];
-        }
-    }
-    int rightbig=arr[n-1];
-   // cout<<"hola";
-    for(int i=n-1;i>=0;i--){
-        if(leftbig ==arr[i]) break;
-        else {
-            ans = ans-(leftbig - arr[i]);
-            //db1(ans);
-        }
-
-        if(rightbig>=arr[i]) ans+= rightbig-arr[i];
-        else{
-            rightbig= arr[i];
-
-        }
-    }
-
-    cout<<ans;
-
-    return 0;
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
+	//#ifndef ONLINE_JUDGE
+	//freopen("input.txt", "r", stdin);
+	//freopen("output.txt", "w", stdout);
+	//#endif
+	int n; cin >> n;
+	int* arr = new int[n];
+	vector<bool> isValid(maxi, true);
+	for (int i = 0; i < n; i++) cin >> arr[i];
+	cout << solve(arr, 0, n,isValid);
+	return 0;
 }
