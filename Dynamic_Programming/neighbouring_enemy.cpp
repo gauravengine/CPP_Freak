@@ -32,27 +32,11 @@ using ll = long long;
 
 
 
-int solve(int* arr, int curr, int n,vector<bool> isValid) {
-
-	if (curr > n - 1) return 0;
-	if (isValid[arr[curr]]) {
-		db1(arr[curr]);
-		isValid[arr[curr] - 1] = 0;
-		isValid[arr[curr] + 1] = 0;
-		int op1 = arr[curr] + solve(arr, curr + 1, n,isValid);
-		isValid[arr[curr] - 1] = 1;
-		isValid[arr[curr] + 1] = 1;
-		int op2 = solve(arr, curr + 1, n,isValid);
-		return max(op1, op2) ;
-	}
-	else {
-		return solve(arr, curr + 1, n,isValid);
-	}
-	return 0;
-}
-
 int32_t main()
 {
+	#ifdef GAURAV_DEBUG
+	cerr<<"bonjour";
+	#endif
 	ios::sync_with_stdio(0);
 	cin.tie(0);
 	cout.tie(0);
@@ -62,8 +46,23 @@ int32_t main()
 	//#endif
 	int n; cin >> n;
 	int* arr = new int[n];
-	vector<bool> isValid(maxi, true);
-	for (int i = 0; i < n; i++) cin >> arr[i];
-	cout << solve(arr, 0, n,isValid);
+	int* freq= new int[maxi];
+	int maximum=0;
+	for(int i=0;i<maxi;i++) freq[i]=0;
+	
+	for (int i = 0; i < n; i++) {
+		cin>>arr[i];
+		freq[arr[i]]++;
+		maximum= max(maximum,arr[i]);
+	}
+	
+	int* dp= new int[maximum+1];
+	dp[0]=0;
+	dp[1]=1*freq[1];
+	for(int i=2;i<=maximum;i++){
+		dp[i]= max(i*freq[i]+dp[i-2],dp[i-1]);
+	}
+	cout<<dp[maximum];
+	//cerr<<arr[0]<<"\n";
 	return 0;
 }

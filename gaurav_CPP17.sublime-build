@@ -1,0 +1,26 @@
+{
+	"cmd": ["g++","-std=c++17","-DGAURAV_DEBUG","-Wall","${file}","-o","${file_base_name}"],
+	"selector": "source.c++",
+	"working_dir": "$file_path",
+
+	"variants":
+	[
+		{
+			"name": "Run with DGAURAV_DEBUG",
+			"cmd": ["g++","-std=c++17", "-DGAURAV_DEBUG", "$file", "-o", "$file_base_name", "&&","${file_base_name}.exe<input.in>output.in"], 
+			"shell":true
+
+		},
+		{
+			"name": "Run without DGAURAV_DEBUG",
+			"cmd": ["g++","-std=c++17", "$file", "-o", "$file_base_name", "&&", "${file_base_name}.exe<input.in>output.in"], 
+			"shell":true
+		},
+		{
+			"name": "Run only",
+			"cmd": ["${file_base_name}.exe<input.in>output.in"], 
+			"shell":true
+		}
+	]
+
+}
