@@ -1,1 +1,7 @@
 https://codeforces.com/blog/entry/15547 --flags
+
+https://youtu.be/4B-2WxvEBuI --healthyug setup(in last) will add mkdir sol.cpp take input for the contest directory
+				prob name must be in the json most probably it will make {probname}.cpp {probname}.cpp__tests
+				for every click on companion 
+				can easily ctrl^c to exit
+
