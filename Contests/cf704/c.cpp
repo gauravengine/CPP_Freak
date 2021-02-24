@@ -29,10 +29,13 @@
 using namespace std;
 using ll = long long;
 
-void solve(){
-	
-}   
 
+void solve(){
+    int n,m;
+    cin>>n>>m;
+    string s,t; cin>>s>>t;
+
+}
 
 int32_t main()
 {
@@ -43,7 +46,9 @@ int32_t main()
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     //#endif  
-    solve();
+    int t;
+    cin>>t;
+    while(t--) solve();
     
     return 0;
 }

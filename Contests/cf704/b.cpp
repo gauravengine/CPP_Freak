@@ -29,10 +29,54 @@
 using namespace std;
 using ll = long long;
 
-void solve(){
-	
-}   
+inline void helper(vector<int> &arr,int start,int &endptr){
+	//int n= arr.size();
+	for(int i=start;i<=endptr;i++){
+		cout<<arr[i]<<" ";
+	}
+	//arr.erase(arr.begin()+start,arr.end());
+	//ansptr += (n-1-start +1);
+	return;
+}
 
+inline int maxhelper(vector<int> &arr,int endptr){
+	int max=-1 ,pos=-1;
+	for(int i=endptr;i>=0;i--){
+		if(max< arr[i] ){
+			max=arr[i];
+			pos= i;
+		}
+	}
+	return pos;
+}
+
+// inline void print ( vector<int> &ans){
+// 	for(int i=0;i<ans.size();i++){
+// 		cout<<ans[i]<<" ";
+// 	}
+// 	cout<<"\n";
+// 	return;
+// }
+
+void solve(){
+    int n; cin>>n;
+    vector<int> arr(n);
+    for(int i=0;i<n;i++){
+    	cin>>arr[i];
+    }
+    //vector<int> ans;
+    int endptr=n-1;
+    while(endptr >=0){
+	    int maxpos= maxhelper(arr,endptr);
+	   // db1(maxpos);
+	   	helper(arr,maxpos,endptr);
+	   	endptr = maxpos-1;
+    }
+    cout<<'\n';
+
+    //print(ans);
+    return;
+}
 
 int32_t main()
 {
@@ -43,7 +87,9 @@ int32_t main()
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     //#endif  
-    solve();
-    
+    int t;
+    cin>>t;
+    while(t--) solve();
+    //cout<<'\n';
     return 0;
 }

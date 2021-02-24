@@ -30,9 +30,14 @@ using namespace std;
 using ll = long long;
 
 void solve(){
-	
-}   
+    int p,a,b,c;
+    cin>>p>>a>>b>>c;
 
+    int op1= (p%a ==0 ) ? 0:a-p%a;
+    int op2=(p%b==0)? 0:b- p%b;
+    int op3=(p%c==0)? 0:c- p%c;
+    cout<<min(op1,min(op2,op3))<<'\n';
+}
 
 int32_t main()
 {
@@ -43,7 +48,9 @@ int32_t main()
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     //#endif  
-    solve();
+    int t;
+    cin>>t;
+    while(t--) solve();
     
     return 0;
 }

@@ -29,10 +29,33 @@
 using namespace std;
 using ll = long long;
 
-void solve(){
-	
-}   
+inline void print ( vector<int> &ans){
+	for(int i=0;i<ans.size();i++){
+		cout<<ans[i]<<" ";
+	}
+	cout<<"\n";
+	return;
+}
 
+void solve(){
+    int n; cin>>n;
+    vector<int> arr(n);
+    for(int i=0;i<n;i++){
+    	cin>>arr[i];
+    }
+
+    vector<int> ans;
+    set<int> s(arr.begin(),arr.end());
+    for(int l=n-1,r=n;l>=0;l--){
+    	if(arr[l]==*s.rbegin()){
+    		copy(next(arr.begin(),l),next(arr.begin(),r),back_inserter(ans));
+    		r=l;
+    	}
+    	s.erase(arr[l]);
+    }
+
+    print(ans);
+}
 
 int32_t main()
 {
@@ -43,7 +66,9 @@ int32_t main()
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     //#endif  
-    solve();
+    int t;
+    cin>>t;
+    while(t--) solve();
     
     return 0;
 }
