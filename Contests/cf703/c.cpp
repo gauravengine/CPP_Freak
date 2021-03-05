@@ -59,28 +59,69 @@ int getQuery(int l,int r){
 void solve(){
 	int n; cin>>n;
     int beg= 1,end=n;
-while(beg<=end)
-{
-    if(beg== end ) break;
+// while(beg<=end)
+// {
+//     if(beg== end ) break;
+//     int secondLargest= getQuery(beg,end);
+//     // check left
+//     if(end-beg ==1 && secondLargest==end){
+//         break;
+//     }
+//     else if(end-beg ==1 && secondLargest!=end){
+//         beg= end;
+//         break;
+//     }
+//     int ans;
+//     if(getQuery(beg,secondLargest)==secondLargest){
+//         //left it is
+//          end=secondLargest-1;
+//     }else{
+//          beg= secondLargest+1;
+//     }
+// }
+//     cout<<"! "<<beg<<endl;
+
     int secondLargest= getQuery(beg,end);
-    // check left
-    if(end-beg ==1 && secondLargest==end){
-        break;
+    if(secondLargest !=1 &&getQuery(beg,secondLargest)==secondLargest){
+        //this side max is
+        int left=beg;int right=secondLargest-1;
+        int ans=(1+n)/2;
+        while(left <=right){
+            int mid=left +(right-left)/2;
+            //db3(left,mid,right);
+            if(mid==secondLargest) break;
+
+            if(getQuery(mid,secondLargest)==secondLargest){
+                ans=mid;
+                left=mid+1;
+            }
+            else{
+                right=mid-1;                
+            }
+        }
+
+        cout<<"! "<<ans<<endl;
     }
-    else if(end-beg ==1 && secondLargest!=end){
-        beg= end;
-        break;
+    else{
+        //other side
+        int ans=(1+n)/2;
+
+        int left=secondLargest+1,right=end;
+        while(left<=right){
+            int mid=left+(right-left)/2;
+            if(mid==secondLargest) break;
+            if(getQuery(secondLargest,mid)==secondLargest){
+                ans=mid;
+                right=mid-1;
+            }
+            else{
+                left=mid+1;
+            }
+        }
+
+        cout<<"! "<<left<<endl;
     }
-    int ans;
-    if(getQuery(beg,secondLargest)==secondLargest){
-        //left it is
-         end=secondLargest-1;
-    }else{
-         beg= secondLargest+1;
-    }
-}
-    cout<<"! "<<beg<<endl;
-}
+ }
 
 int32_t main()
 {

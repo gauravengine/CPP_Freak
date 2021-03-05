@@ -10,7 +10,7 @@
 #define ff              first
 #define endl            '\n'
 #define ss              second
-#define int             long long 
+#define int             long long
 #define pb              push_back
 #define mp              make_pair
 #define pii             pair<int,int>
@@ -29,70 +29,14 @@
 using namespace std;
 using ll = long long;
 
-int val(char c) 
-{ 
-    if (c >= '0' && c <= '9') 
-        return (int)c - '0'; 
-    else
-        return (int)c - 'A' + 10; 
-} 
-
-int toDeci(string str, int base) 
-{ 
-    int len = str.length(); 
-    int power = 1; // Initialize power of base 
-    int num = 0;  // Initialize result 
-    int i; 
-  
-    // Decimal equivalent is str[len-1]*1 + 
-    // str[len-2]*base + str[len-3]*(base^2) + ... 
-    for (i = len - 1; i >= 0; i--) 
-    { 
-        // A digit in input number must be 
-        // less than number's base 
-        if (val(str[i]) >= base) 
-        { 
-          // printf("Invalid Number"); 
-           return -1; 
-        } 
-  
-        num += val(str[i]) * power; 
-        power = power * base; 
-    } 
-  
-    return num; 
-} 
-
 void solve(){
-	string x; int m;
-    cin>>x>>m;
-    vector<int> dc;
-    for(int i=0;i<x.length();i++){
-        dc.push_back(x[i]-'0');
-    }
-    int d=-1;
-    for(int i=0;i<dc.size();i++){
-        d= max(d,dc[i]);
-    }
-    int low= d+1;
-    int high= m;
-    int ans;
-    while(low<=high){
-        int mid= low+(high-low)/2;
-        int temp= toDeci(x,mid);
-        //db1(temp);
-        if(temp <=m){
-            ans=mid;
-            low= mid+1;
-        }
-        else {
-            high= mid-1;
-        }
-        
-    }
-    cout<<ans-(d+1)+1;
-}   
-
+    int k;
+    string taka,aoki;
+    cin>>taka>>aoki;
+    vector<int> ta[5];
+    vector<int> ao[5];
+    int aoki = getscore()
+}
 
 int32_t main()
 {

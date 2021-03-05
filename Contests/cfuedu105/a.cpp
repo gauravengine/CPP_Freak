@@ -29,66 +29,75 @@
 using namespace std;
 using ll = long long;
 
-void print(int *arr,int size){
-    cout<<" hola "<<endl;
-    for(int i=0;i<size;i++){
-        cout<<arr[i]<<" ";
-    }
-    cout<<endl;
+bool check(string s){
+	int n= s.length();
+	int ans=0;
+	for(int i=0;i<n;i++){
+		if(s[i]=='(') ans++;
+		if(s[i]==')') ans--;
+		if(ans < 0) return false;
+	}
+	if(ans !=0 ) return false;
+	return true;
 }
 
-void solve(){
-    int n,m;
-    cin>>n>>m;
-    string s,t; cin>>s>>t;
-    // from left sides
-    int lefti[m];
-    int righti[m];
-    int si=0,ti=0;
-    while(si<n && ti < m){
-        if(s[si]==t[ti]){
-            //db2(si,ti);
-            lefti[ti]=si;
-            si++;
-            ti++;
-        }
-        else{
-            si++;
-        }
-    }    
+void solve() {
+	string s;
+	cin >> s;
+	int n = s.length();
+	string s2 = s;
+	string s3 = s;
+	if (s[0] == s[n - 1]) {
+		cout << "NO\n";
+		return;
+	}
+	map<char,int> hash;
+	hash[s[0]]=2;
+	hash[s[n-1]]=1;
 
-    //filling righti]
-    si=n-1;ti=m-1;
-    while(si >=0 && ti >=0){
-        if(s[si]==t[ti]){
-            righti[ti]=si;
-            si--;
-            ti--;
-        }
-        else{
-            si--;
-        }
-    }
-    // print(lefti,m);
-    // print(righti,m);
-    int ans= INT_MIN;
-    for(int i=0;i<m-1;i++){
-        ans = max(ans,righti[i+1]-lefti[i]);
-    }
+	for(int i=0;i<n;i++){
+		if(hash[s2[i]]==1){
+			s2[i]=')';
+			//cout<<"h\n";
+			//db1(s2);
+		} 
+		else if(hash[s2[i]]==2) {
+			s2[i]='(';
+			//cout<<"bk\n";
+		}
+		else if(hash[s2[i]]==0) {
+			//db2(s2[i],hash[s2[i]]);
+			s2[i]='(';
+			//cout<<"ck\n";
+		}
+		//db1(s2);                                 
+		if(hash[s3[i]]==1) s3[i]=')';
+		else if(hash[s3[i]]==2) s3[i]='(';
+		else if(hash[s3[i]]==0) s3[i]=')';
+	}
+	//db2(s2,s3);
+	if(check(s2) || check(s3)){
+		cout<<"YES\n";
+	}
+	else{
+		cout<<"NO\n";
+	}
 
-    cout<<ans;
+	return;
 }
 
 int32_t main()
 {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-    //#ifndef ONLINE_JUDGE
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
-    //#endif  
-     solve();
-    
-    return 0;
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
+	//#ifndef ONLINE_JUDGE
+	//freopen("input.txt", "r", stdin);
+	//freopen("output.txt", "w", stdout);
+	//#endif
+	int t;
+	cin >> t;
+	while (t--) solve();
+
+	return 0;
 }

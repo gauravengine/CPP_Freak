@@ -29,54 +29,8 @@
 using namespace std;
 using ll = long long;
 
-void print(int *arr,int size){
-    cout<<" hola "<<endl;
-    for(int i=0;i<size;i++){
-        cout<<arr[i]<<" ";
-    }
-    cout<<endl;
-}
-
 void solve(){
-    int n,m;
-    cin>>n>>m;
-    string s,t; cin>>s>>t;
-    // from left sides
-    int lefti[m];
-    int righti[m];
-    int si=0,ti=0;
-    while(si<n && ti < m){
-        if(s[si]==t[ti]){
-            //db2(si,ti);
-            lefti[ti]=si;
-            si++;
-            ti++;
-        }
-        else{
-            si++;
-        }
-    }    
-
-    //filling righti]
-    si=n-1;ti=m-1;
-    while(si >=0 && ti >=0){
-        if(s[si]==t[ti]){
-            righti[ti]=si;
-            si--;
-            ti--;
-        }
-        else{
-            si--;
-        }
-    }
-    // print(lefti,m);
-    // print(righti,m);
-    int ans= INT_MIN;
-    for(int i=0;i<m-1;i++){
-        ans = max(ans,righti[i+1]-lefti[i]);
-    }
-
-    cout<<ans;
+    
 }
 
 int32_t main()
@@ -88,7 +42,9 @@ int32_t main()
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     //#endif  
-     solve();
+    int t;
+    cin>>t;
+    while(t--) solve();
     
     return 0;
 }
