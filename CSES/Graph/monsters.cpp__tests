@@ -1,0 +1,19 @@
+[
+	{
+		"correct_answers":
+		[
+			"YES\n5\nRRDDR"
+		],
+		"test": "5 8\n########\n#M..A..#\n#.#.M#.#\n#M#..#..\n#.######\n"
+	},
+	{
+		"correct_answers":
+		[
+			"YES\n16\nLLLLLDDRRRRRDDDD"
+		],
+		"test": "8 8\n########\n#.....A#\n#.######\n#......#\n#.####.#\n#....#.#\n#.##.#.#\n#.#M.#.#\n"
+	},
+	{
+		"test": "1 3\n##A\n"
+	}
+]

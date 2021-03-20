@@ -28,19 +28,37 @@
 #define mod 1000000007
 using namespace std;
 using ll = long long;
+
+void print(vector<int> &ans){
+	int n=ans.size();
+	cout<<n<<"\n";
+	for(int i=0;i<n;i++){
+		cout<<ans[i]<<" ";
+	}
+	cout<<"\n";
+}
+
+void solve(){
+	int n,k;
+	cin>>n>>k;
+	vector<int> ans;
+	int start;
+	if(k%2==0) start=k/2;
+	else start=k/2+1;
+	for(int i=start;i<=n;i++){
+		if(i!=k) ans.push_back(i);
+	}
+	print(ans);
+}
+
 int32_t main()
 {
     ios::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-    //#ifndef ONLINE_JUDGE
-    //freopen("input.txt", "r", stdin);
-    //freopen("output.txt", "w", stdout);
-    //#endif  
     int t;
     cin>>t;
-    while(t--){
-        
-    }
+    while(t--) solve();
+    
     return 0;
 }
