@@ -38,14 +38,60 @@ int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x)
 
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
 
+bool flag=false;
+
+struct gada
+{
+	int m,c;
+};
+//int size;
+vec<2,int> dp(100005,1000000003,-1);
+int help(gada *(electronics),int target,int n,int curr){
+	if(target<=0) {
+		flag=true;
+		return 0;
+	}
+	if(curr==n){
+		if(target > 0) return INT_MAX;
+		//flag=true;
+		return 0;
+	}
+	//pii key=mp(curr,target);
+	//if(dp.find(key)!= dp.end()) return dp[key];
+	if(dp[curr][target] !=-1) return dp[curr][target];
+	int op1=electronics[curr].c + help(electronics,target-electronics[curr].m,n,curr+1);
+	int op2=help(electronics,target,n,curr+1);
+	return dp[curr][target]=min(op1,op2);
+}
 
 void solve(){
-    int a,b,c,d;
-    cin>>a>>b>>c>>d;
-    int x=max(a,b);
-     int y=min(c,d);
-    cout<<x-y;
-    
+	int n,m;
+	cin>>n>>m;
+	//size=n;
+	dp.clear();
+	flag=false;
+	vec<1,int> a(n),b(n);
+	for(int i=0;i<n;i++){
+		cin>>a[i];
+	}
+	for(int i=0;i<n;i++){
+		cin>>b[i];
+	}
+
+	gada electronics[n];
+	
+	for(int i=0;i<n;i++){
+		electronics[i].m=a[i];
+		electronics[i].c=b[i];
+	}
+
+	int ans=help(electronics,m,n,0);
+	if(flag){
+		cout<<ans<<'\n';
+	}else{
+		cout<<-1<<'\n';
+	}
+    return;
 }
 
 int32_t main()
@@ -58,7 +104,7 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif  
     int t=1;
-    //cin>>t;
+    cin>>t;
     while(t--) solve();
     
     return 0;

@@ -40,12 +40,9 @@ template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_a
 
 
 void solve(){
-    int a,b,c,d;
-    cin>>a>>b>>c>>d;
-    int x=max(a,b);
-     int y=min(c,d);
-    cout<<x-y;
-    
+    int a,b;
+    cin>>a>>b;
+    cout<<a*b<<'\n';
 }
 
 int32_t main()
@@ -58,7 +55,7 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif  
     int t=1;
-    //cin>>t;
+    cin>>t;
     while(t--) solve();
     
     return 0;

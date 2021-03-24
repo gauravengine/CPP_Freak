@@ -39,13 +39,21 @@ int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x)
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
 
 
-void solve(){
-    int a,b,c,d;
-    cin>>a>>b>>c>>d;
-    int x=max(a,b);
-     int y=min(c,d);
-    cout<<x-y;
-    
+void solve(int caseno){
+	int ans=0;
+    int n,k;
+    cin>>n>>k;
+    int ak=0;
+    string s;
+    cin>>s;
+    for(int i=0;i<=(n/2)-1;i++){
+    	if(s[i]!=s[n-i-1]) ak++;
+    }
+    if(k<ak) swap(k,ak);
+    ans=k-ak;
+
+    cout<<"Case #"<<caseno<<": "<<ans<<'\n';
+
 }
 
 int32_t main()
@@ -58,8 +66,11 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif  
     int t=1;
-    //cin>>t;
-    while(t--) solve();
-    
+    cin>>t;
+    int i=1;
+    while(t--) {
+    	solve(i);
+    	i++;
+    }
     return 0;
 }

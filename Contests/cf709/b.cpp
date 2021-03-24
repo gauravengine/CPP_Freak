@@ -1,0 +1,167 @@
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
+#include <bits/stdc++.h>
+
+
+#define db1(x) cout<<#x<<"="<<x<<'\n'
+#define db2(x,y) cout<<#x<<"="<<x<<","<<#y<<"="<<y<<'\n'
+#define db3(x,y,z) cout<<#x<<"="<<x<<","<<#y<<"="<<y<<","<<#z<<"="<<z<<'\n'
+#define ff              first
+#define endl            '\n'
+#define ss              second
+#define int             long long
+#define pb              push_back
+#define mp              make_pair
+#define pii             pair<int,int>
+#define vi              vector<int>
+#define mii             map<int,int>
+#define pqb             priority_queue<int>
+#define pqs             priority_queue<int,vi,greater<int> >
+#define setbits(x)      __builtin_popcountll(x)
+#define zrobits(x)      __builtin_ctzll(x)
+#define mod             1000000007
+#define inf             1e18
+#define ps(x,y)         fixed<<setprecision(y)<<x
+#define mk(arr,n,type)  type *arr=new type[n];
+#define w(x)            int x; cin>>x; while(x--)
+#define MOD 1000000007
+using namespace std;
+using ll = long long;
+inline int powMod(int a, int b) { int x = 1; while (b > 0) { if (b & 1) x = (x * a) % MOD; a = (a * a) % MOD; b >>= 1; } return x; }
+inline int multiply(int x, int y) { return ((x % MOD) * (y % MOD)) % MOD; }
+inline int divide(int x, int y) { return ((x % MOD) * powMod(y % MOD, MOD - 2)) % MOD; }
+inline int ceil(int a, int b) { return (a + b - 1) / b; }
+int gcd (int a, int b) { while (b) { a %= b; swap(a, b); } return a; }
+int lcm (int a, int b) { return a / gcd(a, b) * b; }
+int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x) % m == 1) return x; return -1; }
+
+template<int D, typename T> struct vec : public vector < vec < D - 1, T >> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector < vec < D - 1, T >> (n, vec < D - 1, T > (args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
+
+
+void solve() {
+    int n;
+    cin >> n;
+    int* arr = new int[n];
+    set<int> cs;
+    unordered_set<int> as;
+    int maxi=INT_MIN;
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+        maxi=max(maxi,arr[i]);
+        as.insert(arr[i]);
+        if (i > 0) cs.insert(arr[i] - arr[i - 1]);
+    }
+    if (n < 2) {
+        cout << 0 << '\n';
+        return;
+    }
+    if (cs.size() > 2) {
+        cout << -1 << '\n';
+        return;
+    }
+    if(cs.size()==1 && *(cs.begin()) > 0){
+        cout<<0<<'\n';
+        return;
+    }
+    int c1=*cs.begin();
+    cs.erase(cs.begin());
+    int c2=-1;
+    if(cs.size()>0) c2=*cs.begin();
+    if(c1==0 || c2==0){
+        if(as.size()==1) cout<<0<<'\n';
+        else cout<<-1<<'\n';
+        return;
+    }
+
+    //db2(c1,c2);
+    if((c1>0 && c2>0 )){
+        cout<<0<<'\n';
+        return;
+    }
+    int m= abs(c1-c2);
+    int c= (c1>0)?c1:c2;
+    if(maxi >=m){
+      //      cout<<"h\n";
+        cout<<-1<<'\n';
+        return;
+    }
+    cout<<m<<" "<<c<<'\n';
+
+    return;
+}
+
+int32_t main()
+{
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    //#ifndef ONLINE_JUDGE
+    //freopen("input.txt", "r", stdin);
+    //freopen("output.txt", "w", stdout);
+    //#endif
+    int t = 1;
+    cin >> t;
+    while (t--) solve();
+
+    return 0;
+}
+
+/*
+//trash
+int c = arr[1] - arr[0];
+    if (c < 0) {
+        cout << -1 << '\n';
+        return;
+    }
+    if (c == 0) {
+        //whole array must be same
+        bool flag = true;
+        for (int i = 0; i < n - 1; i++) {
+            if (arr[i] != arr[i + 1]) {
+                flag = false;
+                break;
+            }
+        }
+        if (flag) {
+            cout << 0 << '\n';
+        } else {
+            cout << -1 << '\n';
+        }
+        return;
+    }
+    //now c>0;
+    //abb decrease kahin pe nahin hua to can be infi ->0
+    int m = 0;
+    bool inc = true; //always increasing
+    if (n == 2) {
+        //c 0 nahi h
+        cout << 0 << '\n';
+        return;
+    }
+    for (int i = 2; i < n; i++) {
+        // if(arr[i-1]==arr[i]){
+        //  cout<<-1<<'\n';
+        //  return;
+        //  //check
+        // }
+        if (arr[i - 1] >= arr[i] && inc) {
+            inc = false;
+            m = arr[i - 1] + c - arr[i];
+            //db2(m,c);
+        }
+        if (!inc) {
+            int temp = (arr[i - 1] + c) % m;
+            if (temp != arr[i]) {
+                //cout<<"tempva";
+                cout << -1 << '\n';
+                return;
+            }
+        }
+    }
+    if (inc) {
+        cout << 0 << '\n';
+        return;
+    }
+    cout << m << " " << c << '\n';
+*/
