@@ -28,6 +28,36 @@
 #define MOD 1000000007
 using namespace std;
 using ll = long long;
+vi init(string s)
+{
+  istringstream sin(s);
+  int n;
+  vi arr;
+  while(sin>>n)arr.push_back(n);
+  return arr;
+}
+// int dx[]={-1,1,0,0}; int dy[]={0,0,1,-1};
+// int dx[]={2,2,-2,-2,1,1,-1,-1}; int dy[]={1,-1,1,-1,2,-2,2,-2};
+/*------------------------------UNORDERED MAP HASH --------------------------------------------*/
+//To make unordered_map unhackable 
+// use it as unordered_map<int,int,custom_hash> mapp;
+/*
+struct custom_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c 
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
+ 
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+*/
+/*------------------------------END--------------------------------------------*/
 inline int powMod(int a, int b) { int x = 1; while (b > 0) { if (b&1) x = (x*a) % MOD; a = (a*a) % MOD; b >>= 1; } return x; }
 inline int multiply(int x, int y) { return ((x % MOD) * (y % MOD)) % MOD; }
 inline int divide(int x, int y) { return ((x % MOD) * powMod(y % MOD, MOD-2)) % MOD; }
@@ -37,98 +67,23 @@ int lcm (int a, int b) { return a / gcd(a, b) * b; }
 int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x) % m == 1) return x; return -1; }
 
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
-int row,col;
-bool check(int i,int j,vec<2,bool>& mat){
-	//cout<<"hmm";
-	//cout << mat[i][j]<<"\n";
-	if(i>=0 && i<row && j>=0 && j<col && mat[i][j]){
-		
-		return true;
-	}
-	return false;
-}
+
 
 void solve(){
-	int n,m; cin>>n>>m;
-	row=n; col=m;
-	vec<2,bool> mat(n,m,false),vis(n,m,false);
-	pii start,end;	
-	for(int i=0;i<n;i++){
-		string s; cin>>s;
-		//cout<<"inp string ";
-		for(int j=0;j<m;j++){
-			mat[i][j]= (s[j]!='#');
-			if(s[j]=='A'){
-				start.ff= i;
-				start.ss=j;
-			}
-			if(s[j]=='B'){
-				end.ff=i;
-				end.ss=j;
-			}
-		}
-	}
-	// initialised the mat;
-	queue<pii> q;
-	q.push(start);
-	vec<2,pii> prev(n,m);
-	vis[start.ff][start.ss]=true;
-	while(!q.empty()){
-		pii temp= q.front();
-		q.pop();
-		if(temp==end) break;
-
-		int dx[]={-1,0,0,1};
-		int dy[]={0,-1,1,0};
-		for(int k=0;k<4;k++){
-			int x= temp.ff +dx[k];
-			int y= temp.ss +dy[k];
-			//db2(x,y);
-			//cout<<"here mat[x][y] "<<mat[x][y]<<"\n";
-			if(check(x,y,mat) &&!vis[x][y]){
-				//db2(x,y);
-				vis[x][y]=true;
-				prev[x][y]=temp;
-				q.push(mp(x,y));
-			}
-		}
-	}
-	prev[start.ff][start.ss]={-1,-1};
-	if(vis[end.ff][end.ss] != true) {
-		cout<<"NO";
-		return ;
-	}else{
-		cout<<"YES\n";
-		//find the path bc
-		pii to=end;
-		stringstream s;
-
-		for(int i=prev[end.ff][end.ss].ff,j=prev[end.ff][end.ss].ss;i!=-1&& j!=-1;tie(i,j)=prev[i][j]){
-			if(i-1 == to.ff && j==to.ss) s<<'U';
-			else if(i+1==to.ff && j==to.ss) s<<'D';
-			else if(i==to.ff && j+1==to.second) s<<'R';
-			else if(i==to.ff && j-1==to.second) s<<'L';
-			to={i,j};
-		}
-		string ans=s.str();
-		reverse(ans.begin(),ans.end());
-		cout<<ans.length()<<"\n";
-		cout<<ans;
-	}
-
+    
 }
 
 int32_t main()
 {
-    // ios::sync_with_stdio(0);
-    // cin.tie(0);
-    // cout.tie(0);
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
     //#ifndef ONLINE_JUDGE
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     //#endif  
     int t=1;
-    //cin>>t;
+    cin>>t;
     while(t--) solve();
     
     return 0;
