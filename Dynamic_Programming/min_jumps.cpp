@@ -20,7 +20,7 @@
 #define pqs             priority_queue<int,vi,greater<int> >
 #define setbits(x)      __builtin_popcountll(x)
 #define zrobits(x)      __builtin_ctzll(x)
-
+#define mod             1000000007
 #define inf             1e18
 #define ps(x,y)         fixed<<setprecision(y)<<x
 #define mk(arr,n,type)  type *arr=new type[n];
@@ -28,6 +28,36 @@
 #define MOD 1000000007
 using namespace std;
 using ll = long long;
+vi init(string s)
+{
+  istringstream sin(s);
+  int n;
+  vi arr;
+  while(sin>>n)arr.push_back(n);
+  return arr;
+}
+// int dx[]={-1,1,0,0}; int dy[]={0,0,1,-1};
+// int dx[]={2,2,-2,-2,1,1,-1,-1}; int dy[]={1,-1,1,-1,2,-2,2,-2};
+/*------------------------------UNORDERED MAP HASH --------------------------------------------*/
+//To make unordered_map unhackable 
+// use it as unordered_map<int,int,custom_hash> mapp;
+/*
+struct custom_hash {
+    static uint64_t splitmix64(uint64_t x) {
+        // http://xorshift.di.unimi.it/splitmix64.c 
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);
+    }
+ 
+    size_t operator()(uint64_t x) const {
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(x + FIXED_RANDOM);
+    }
+};
+*/
+/*------------------------------END--------------------------------------------*/
 inline int powMod(int a, int b) { int x = 1; while (b > 0) { if (b&1) x = (x*a) % MOD; a = (a*a) % MOD; b >>= 1; } return x; }
 inline int multiply(int x, int y) { return ((x % MOD) * (y % MOD)) % MOD; }
 inline int divide(int x, int y) { return ((x % MOD) * powMod(y % MOD, MOD-2)) % MOD; }
@@ -38,30 +68,30 @@ int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x)
 
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
 
-bool isValid(int x){
-    return x>=1 && x<=26;
-}
-
+int jump(vector<int>& nums) {
+        vector<int> dp(nums.size(),-1);
+        dp[0]=0;
+        for(int i=0;i<nums.size();i++){
+            int steps=nums[i];
+            if(dp[i]==-1) continue;
+            for(int j=i+1;j<=i+steps && j<nums.size();j++){
+           //     cout<<"j : "<<j<<'\n';
+                if(dp[j]==-1) dp[j]=1+dp[i];
+                else dp[j]=min(dp[j],1+dp[i]);
+            }
+        }
+       // for(int i=0;i<nums.size();i++){
+       //     cout<<dp[i]<<" ";
+       // }
+        return dp[nums.size()-1];
+ }
 void solve(){
-    string s;
-    cin>>s;
-    int n=s.size();
-    if(n==1){
-    	cout<<1<<'\n';
-    	return;
-    }
-    vec<1,int> arr(n);
-    for(int i=0;i<n;i++) arr[i]=s[i]-'0';
-    vec<1,int> dp(n+1,0);
-    dp[0]=1;
-    dp[1]=isValid(arr[1]);
-    for(int i=1;i<=n;i++){
-        dp[i]=dp[i-1]*isValid(arr[i]);
-        if(i>=2) dp[i]+= dp[i-2]*isValid(arr[i]+10*arr[i-1]);
-        else dp[i]+= 1*isValid(arr[i]+10*arr[i-1]);
-    }
-	
-    cout<<dp[n-1]<<'\n';
+    int n;
+    cin>>n;
+    vec<1,int> nums(n);
+    for(int i=0;i<n;i++) cin>>nums[i];
+
+    cout<<jump(nums)<<'\n';
 }
 
 int32_t main()
@@ -74,7 +104,7 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif  
     int t=1;
-    cin>>t;
+    //	cin>>t;
     while(t--) solve();
     
     return 0;
