@@ -1,6 +1,6 @@
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
 
 
@@ -70,14 +70,49 @@ int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x)
 
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
 
-
-void solve(){
-    int n;
-    cin>>n;
-    int arr[n];
-    for(int i=0;i<n;i++){
-        
+int mat[805][805],pfx[805][805],n,k,pos;
+bool check(int mid){
+    memset(pfx,0,sizeof(pfx));
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+            if(mat[i][j]>mid) pfx[i][j]=1;
+        }
     }
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+            pfx[i][j]+=pfx[i-1][j]+pfx[i][j-1]-pfx[i-1][j-1];
+        }
+    }
+    for(int i=k;i<=n;i++){
+        for(int j=k;j<=n;j++){
+            int sum=pfx[i][j]-pfx[i-k][j]-pfx[i][j-k]+pfx[i-k][j-k];
+            if(sum<pos) return true;
+        }
+    }
+
+    return false;
+}
+void solve(){
+    cin>>n>>k;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+            cin>>mat[i][j];
+        }
+    }
+    int l=0,r=1e9;
+    pos=(k*k)/2+1;
+    int ans;
+    while(l<=r){
+        int mid=l+(r-l)/2;
+        if(check(mid)){
+            r=mid-1;
+            ans=mid;
+        }
+        else{
+            l=mid+1;
+        }
+    }
+    cout<<ans;
 }
 
 int32_t main()
@@ -90,7 +125,7 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif  
     int t=1;
-    cin>>t;
+    //cin>>t;
     while(t--) solve();
     
     return 0;

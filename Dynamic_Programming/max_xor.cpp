@@ -1,6 +1,6 @@
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
 
 
@@ -69,15 +69,40 @@ int lcm (int a, int b) { return a / gcd(a, b) * b; }
 int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x) % m == 1) return x; return -1; }
 
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
+int maxXORInRange(int L, int R)
+{
+    // get xor of limits
+    int LXR = L ^ R;
+ 
+    //  loop to get msb position of L^R
+    int msbPos = 0;
+    while (LXR)
+    {
+        msbPos++;
+        LXR >>= 1;
+    }
+ 
+    // construct result by adding 1,
+    // msbPos times
+    int maxXOR = 0;
+    int two = 1;
+   // db1(msbPos);
+    // int temp = pow(2,msbPos)-1;
+ 	// db1(temp);
+    while (msbPos--)
+    {
+        maxXOR += two;
+        two <<= 1;
+    }
 
+    return maxXOR;
+}
 
 void solve(){
-    int n;
-    cin>>n;
-    int arr[n];
-    for(int i=0;i<n;i++){
-        
-    }
+    int l,r;
+    cin>>l>>r;
+  	int ans=maxXORInRange(l,r);
+    cout<<ans;
 }
 
 int32_t main()
@@ -90,7 +115,7 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif  
     int t=1;
-    cin>>t;
+    //cin>>t;
     while(t--) solve();
     
     return 0;

@@ -1,6 +1,6 @@
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
 
 
@@ -20,11 +20,10 @@
 #define pqs             priority_queue<int,vi,greater<int> >
 #define setbits(x)      __builtin_popcountll(x)
 #define zrobits(x)      __builtin_ctzll(x)
+#define mod             1000000007
 #define inf             1e18
 #define ps(x,y)         fixed<<setprecision(y)<<x
 #define mk(arr,n,type)  type *arr=new type[n];
-#define all(x) x.begin(),x.end()
-
 
 #define MOD 1000000007
 using namespace std;
@@ -39,7 +38,6 @@ vi init(string s)
 }
 // int dx[]={-1,1,0,0}; int dy[]={0,0,1,-1};
 // int dx[]={2,2,-2,-2,1,1,-1,-1}; int dy[]={1,-1,1,-1,2,-2,2,-2};
-
 /*------------------------------UNORDERED MAP HASH --------------------------------------------*/
 //To make unordered_map unhackable 
 // use it as unordered_map<int,int,custom_hash> mapp;
@@ -69,15 +67,33 @@ int lcm (int a, int b) { return a / gcd(a, b) * b; }
 int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x) % m == 1) return x; return -1; }
 
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
+int a[2005],b[2005];
+vec<2,int> dp(2005,2005,-1);
+int n,m;
+int help(int i,int j,int k){
+	//db2(n,m);
+	// lol i didn't took k into account in dp and it still passed oof
+	//take k also in account
+	if(i>=n || j>=m) return 0;
+	if(dp[i][j]!=-1) return dp[i][j];
+	if(a[i]==b[j]) return dp[i][j]=1+help(i+1,j+1,k);
 
+	int op1=0,op2=0,op3=0;
+	if(k>0) op1=1+help(i+1,j+1,k-1);
+	op2=help(i+1,j,k);
+	op3=help(i,j+1,k);
 
+	return dp[i][j]=max(op1,max(op3,op2));
+
+}
 void solve(){
-    int n;
-    cin>>n;
-    int arr[n];
-    for(int i=0;i<n;i++){
-        
-    }
+    int x,y,k;
+    cin>>x>>y>>k;
+    for(int i=0;i<x;i++) cin>>a[i];
+    for(int i=0;i<y;i++) cin>>b[i];
+    n=x;
+	m=y;
+	cout<<help(0,0,k);
 }
 
 int32_t main()
@@ -90,7 +106,7 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif  
     int t=1;
-    cin>>t;
+    //cin>>t;
     while(t--) solve();
     
     return 0;

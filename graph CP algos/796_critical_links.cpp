@@ -1,6 +1,4 @@
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-//#pragma GCC optimize("unroll-loops")
+
 #include <bits/stdc++.h>
 
 
@@ -24,7 +22,9 @@
 #define ps(x,y)         fixed<<setprecision(y)<<x
 #define mk(arr,n,type)  type *arr=new type[n];
 #define all(x) x.begin(),x.end()
-
+const int MAXN = 1e5+5;
+int dx[] = {1,0,-1,0};
+int dy[] = {0,1,0,-1};
 
 #define MOD 1000000007
 using namespace std;
@@ -39,7 +39,6 @@ vi init(string s)
 }
 // int dx[]={-1,1,0,0}; int dy[]={0,0,1,-1};
 // int dx[]={2,2,-2,-2,1,1,-1,-1}; int dy[]={1,-1,1,-1,2,-2,2,-2};
-
 /*------------------------------UNORDERED MAP HASH --------------------------------------------*/
 //To make unordered_map unhackable 
 // use it as unordered_map<int,int,custom_hash> mapp;
@@ -69,15 +68,79 @@ int lcm (int a, int b) { return a / gcd(a, b) * b; }
 int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x) % m == 1) return x; return -1; }
 
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
+vec<2,int> graph;
+// vector<vector<int> > graph;
+vec<1,pii> ans;
+int timer=0;
+vec<1,int> low,tin;
+vec<1,bool> visited;
+void dfs(int curr,int p){
+	visited[curr]=true;
+	low[curr]=tin[curr]=timer++;
+	for(auto c: graph[curr]){
+		if(c==p) continue;
+		if(visited[c]){
+            //ancestor
+			low[curr]=min(low[curr],tin[c]);
+		}
+		else{
+			dfs(c,curr);
 
-
+			low[curr]=min(low[curr],low[c]);
+			
+            if(low[c]>tin[curr]){
+				//found smthng
+				ans.push_back(make_pair(min(c, curr), max(c, curr)));
+			}
+		}
+	}
+}
+bool comp(pii &a,pii &b){
+	return a.ff<b.ff;
+}
 void solve(){
     int n;
-    cin>>n;
-    int arr[n];
-    for(int i=0;i<n;i++){
-        
+    //sanitize if needed
+    while(cin>>n){
+    	ans.clear();
+    	tin.clear();
+    	low.clear();
+    	graph.clear();
+    	visited.clear();
+    	timer=0;
+
+    	// tin.resize(n);
+    	// low.resize(n);
+    	
+    	graph.resize(n);
+    	visited.assign(n,false);
+    	tin.assign(n,-1);
+    	low.assign(n,-1);
+
+
+    	for(int i=0;i<n;i++){
+    		int u,v;
+    		char c;
+    		int x;
+    		cin>>u>>c>>x>>c;
+    		graph[u].resize(x);
+    		for(int j=0;j<x;j++) cin>>graph[u][j];
+    	}
+    	// dfs(0,-1);
+    	for(int i=0;i<n;i++){
+    		if(!visited[i])
+    			dfs(i,-1);
+    	}
+    	//print ans;
+    	cout<<ans.size()<<" "<<"critical links"<<'\n';
+    	sort(all(ans),comp);
+    	for(auto p:ans){
+    		cout<<p.ff<<" - "<<p.ss<<'\n';
+    	}
+    	cout<<'\n';
     }
+
+    
 }
 
 int32_t main()
@@ -90,7 +153,7 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif  
     int t=1;
-    cin>>t;
+    //cin>>t;
     while(t--) solve();
     
     return 0;

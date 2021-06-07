@@ -1,6 +1,6 @@
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
 
 
@@ -23,10 +23,8 @@
 #define inf             1e18
 #define ps(x,y)         fixed<<setprecision(y)<<x
 #define mk(arr,n,type)  type *arr=new type[n];
-#define all(x) x.begin(),x.end()
 
-
-#define MOD 1000000007
+#define MOD 1000003
 using namespace std;
 using ll = long long;
 vi init(string s)
@@ -39,7 +37,6 @@ vi init(string s)
 }
 // int dx[]={-1,1,0,0}; int dy[]={0,0,1,-1};
 // int dx[]={2,2,-2,-2,1,1,-1,-1}; int dy[]={1,-1,1,-1,2,-2,2,-2};
-
 /*------------------------------UNORDERED MAP HASH --------------------------------------------*/
 //To make unordered_map unhackable 
 // use it as unordered_map<int,int,custom_hash> mapp;
@@ -70,14 +67,33 @@ int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x)
 
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
 
+int dp[105][105][3],n;
+int help(int i,int k,int prev){
+	// if(k==0) return 1; I made a booboo
+	if(i==n) {
+		if(k==0) return 1;
+		return 0;
+	}
+	int ans;
+	if(dp[i][k][prev]!=-1) return dp[i][k][prev];
+	if(prev==0){
+		ans=((help(i+1,k,0))%MOD+(help(i+1,k,1))%MOD)%MOD;
+	}
+	else{
+		ans=((help(i+1,k,0))%MOD+(help(i+1,k-1,1))%MOD)%MOD;
+		
+	}
+
+	return dp[i][k][prev]=ans;
+}
 
 void solve(){
-    int n;
-    cin>>n;
-    int arr[n];
-    for(int i=0;i<n;i++){
-        
-    }
+    int k;
+    cin>>n>>k;
+    memset(dp,-1,sizeof(dp));
+    int ans=((help(1,k,0))%MOD+(help(1,k,1))%MOD)%MOD;
+    ans=ans%MOD;
+    cout<<ans<<'\n';
 }
 
 int32_t main()

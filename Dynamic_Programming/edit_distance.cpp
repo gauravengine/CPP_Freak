@@ -1,6 +1,6 @@
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
 
 
@@ -20,11 +20,10 @@
 #define pqs             priority_queue<int,vi,greater<int> >
 #define setbits(x)      __builtin_popcountll(x)
 #define zrobits(x)      __builtin_ctzll(x)
+#define mod             1000000007
 #define inf             1e18
 #define ps(x,y)         fixed<<setprecision(y)<<x
 #define mk(arr,n,type)  type *arr=new type[n];
-#define all(x) x.begin(),x.end()
-
 
 #define MOD 1000000007
 using namespace std;
@@ -39,7 +38,6 @@ vi init(string s)
 }
 // int dx[]={-1,1,0,0}; int dy[]={0,0,1,-1};
 // int dx[]={2,2,-2,-2,1,1,-1,-1}; int dy[]={1,-1,1,-1,2,-2,2,-2};
-
 /*------------------------------UNORDERED MAP HASH --------------------------------------------*/
 //To make unordered_map unhackable 
 // use it as unordered_map<int,int,custom_hash> mapp;
@@ -70,14 +68,29 @@ int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x)
 
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
 
+vec<2,int> dp(2005,2005,-1);
 
+int help(string a,string b){
+
+	if(b.size()==0 && a.size()==0) return 0;
+	if(a.size()==0) return dp[a.size()][b.size()]=b.size();
+	if(b.size()==0) return dp[a.size()][b.size()]=a.size();
+
+
+	if(dp[a.size()][b.size()]!=-1) return dp[a.size()][b.size()];
+
+	if(a[0]==b[0]) return dp[a.size()][b.size()]=help(a.substr(1),b.substr(1));
+	//check for equal
+	int op1=1+help(a.substr(1),b.substr(1));
+	int op2=1+help(a,b.substr(1));
+	int op3=1+help(a.substr(1),b);
+
+	return dp[a.size()][b.size()]=min(op1,min(op2,op3));
+}
 void solve(){
-    int n;
-    cin>>n;
-    int arr[n];
-    for(int i=0;i<n;i++){
-        
-    }
+    string a,b;
+    cin>>a>>b;
+    cout<<help(a,b);
 }
 
 int32_t main()
@@ -90,7 +103,7 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif  
     int t=1;
-    cin>>t;
+    //cin>>t;
     while(t--) solve();
     
     return 0;

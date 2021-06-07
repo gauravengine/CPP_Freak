@@ -1,7 +1,8 @@
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
+
 
 
 #define db1(x) cout<<#x<<"="<<x<<'\n'
@@ -20,12 +21,11 @@
 #define pqs             priority_queue<int,vi,greater<int> >
 #define setbits(x)      __builtin_popcountll(x)
 #define zrobits(x)      __builtin_ctzll(x)
+#define mod             1000000007
 #define inf             1e18
 #define ps(x,y)         fixed<<setprecision(y)<<x
 #define mk(arr,n,type)  type *arr=new type[n];
-#define all(x) x.begin(),x.end()
-
-
+#define w(x)            int x; cin>>x; while(x--)
 #define MOD 1000000007
 using namespace std;
 using ll = long long;
@@ -39,7 +39,6 @@ vi init(string s)
 }
 // int dx[]={-1,1,0,0}; int dy[]={0,0,1,-1};
 // int dx[]={2,2,-2,-2,1,1,-1,-1}; int dy[]={1,-1,1,-1,2,-2,2,-2};
-
 /*------------------------------UNORDERED MAP HASH --------------------------------------------*/
 //To make unordered_map unhackable 
 // use it as unordered_map<int,int,custom_hash> mapp;
@@ -69,15 +68,26 @@ int lcm (int a, int b) { return a / gcd(a, b) * b; }
 int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x) % m == 1) return x; return -1; }
 
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
-
+map<pii,string> dp;
+string help(string a,string b){
+	if(a.size()==0 or b.size()==0) return "";
+	pii key=make_pair(a.size(),b.size());
+	if(dp.find(key)!=dp.end()) return dp[key];
+	if(a[0]==b[0]){
+		return dp[key]=a[0]+help(a.substr(1),b.substr(1));
+	}
+	string op1=help(a.substr(1),b);
+	string op2=help(a,b.substr(1));
+	if(op1.size()>op2.size()) return dp[key]=op1;
+	else return dp[key]=op2;
+}
 
 void solve(){
-    int n;
-    cin>>n;
-    int arr[n];
-    for(int i=0;i<n;i++){
-        
-    }
+    string a,b;
+    cin>>a>>b;
+    //abc acd
+    string ans=help( a, b);
+    cout<<ans;
 }
 
 int32_t main()
@@ -90,7 +100,7 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif  
     int t=1;
-    cin>>t;
+    //cin>>t;
     while(t--) solve();
     
     return 0;

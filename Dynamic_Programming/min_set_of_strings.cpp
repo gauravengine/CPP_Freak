@@ -1,6 +1,6 @@
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
 
 
@@ -70,14 +70,44 @@ int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x)
 
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
 
+int getmask(string s){
+	int mask=0;
+	for(char c: s){
+		mask=mask|(1<<(c-'A'));
+	}
+	return mask;
+}
+
+int dp[1005][(1<<3)-1]; //1<<3 only need 2^3-1 i.e 7 tho
+int n;
+vec<1,string> arr;
+vec<1,int> cost;
+
+int help(int curr,int mask){
+	if(mask==(1<<3)-1) return 0;
+	if(curr==n){
+		if(mask==7) return 0;
+		else return 1e9;
+	}
+	if(dp[curr][mask]!=-1) return dp[curr][mask];
+	int op1=help(curr+1,mask);
+	int op2=INT_MAX;
+	int curr_mask=getmask(arr[curr]);
+	if((mask^curr_mask)!=0){
+		op2=cost[curr]+help(curr+1,mask|curr_mask);
+	}
+	return dp[curr][mask]=min(op1,op2);
+}
 
 void solve(){
-    int n;
-    cin>>n;
-    int arr[n];
-    for(int i=0;i<n;i++){
-        
-    }
+	cin>>n;
+	arr.resize(n);
+	cost.resize(n);
+	memset(dp,-1,sizeof dp);
+	for(int i=0;i<n;i++) cin>>arr[i];
+	for(int i=0;i<n;i++) cin>>cost[i];
+	int ans=help(0,0);
+	cout<<ans;
 }
 
 int32_t main()
@@ -90,7 +120,7 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif  
     int t=1;
-    cin>>t;
+    //cin>>t;
     while(t--) solve();
     
     return 0;

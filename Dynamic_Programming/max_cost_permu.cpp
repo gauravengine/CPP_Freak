@@ -1,6 +1,6 @@
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
 
 
@@ -75,9 +75,15 @@ void solve(){
     int n;
     cin>>n;
     int arr[n];
-    for(int i=0;i<n;i++){
-        
-    }
+    for(int i=0;i<n;i++) cin>>arr[i];
+    sort(arr,arr+n);
+	int ans=0;
+	for(int i=0;i<n;i++){
+		ans+=i*arr[i];
+
+	}
+	cout<<ans;
+	return;
 }
 
 int32_t main()
@@ -90,7 +96,7 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif  
     int t=1;
-    cin>>t;
+    //cin>>t;
     while(t--) solve();
     
     return 0;

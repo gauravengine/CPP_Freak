@@ -69,16 +69,15 @@ int lcm (int a, int b) { return a / gcd(a, b) * b; }
 int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x) % m == 1) return x; return -1; }
 
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
-
+vec<2,int> adj(2e5+5);
+int n;
 
 void solve(){
-    int n;
     cin>>n;
-    int arr[n];
-    for(int i=0;i<n;i++){
-        
-    }
+    
+
 }
+
 
 int32_t main()
 {
@@ -90,7 +89,7 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif  
     int t=1;
-    cin>>t;
+    //cin>>t;
     while(t--) solve();
     
     return 0;

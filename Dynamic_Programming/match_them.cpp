@@ -1,6 +1,6 @@
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
 
 
@@ -23,8 +23,6 @@
 #define inf             1e18
 #define ps(x,y)         fixed<<setprecision(y)<<x
 #define mk(arr,n,type)  type *arr=new type[n];
-#define all(x) x.begin(),x.end()
-
 
 #define MOD 1000000007
 using namespace std;
@@ -39,7 +37,6 @@ vi init(string s)
 }
 // int dx[]={-1,1,0,0}; int dy[]={0,0,1,-1};
 // int dx[]={2,2,-2,-2,1,1,-1,-1}; int dy[]={1,-1,1,-1,2,-2,2,-2};
-
 /*------------------------------UNORDERED MAP HASH --------------------------------------------*/
 //To make unordered_map unhackable 
 // use it as unordered_map<int,int,custom_hash> mapp;
@@ -72,12 +69,48 @@ template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_a
 
 
 void solve(){
+    string x;
+    cin>>x;
     int n;
     cin>>n;
-    int arr[n];
+    //int mask=0;
+    bool req[10];
+    int curr[10];
+    memset(req,0, sizeof req);
+    memset(curr,0,sizeof curr);
     for(int i=0;i<n;i++){
-        
+        int x; cin>>x;
+        req[x]=1;
     }
+    int lp=0,rp=0;
+    curr[x[0]-'0']++;
+    int ans=0;
+    while(lp< x.size() && rp<x.size()){
+        bool cool=1;
+        for(int i=0;i<10;i++){
+            if(req[i]){
+                if(curr[i]==0){
+                    cool=0;
+                    break;
+                }
+            }
+        }
+        if(cool){
+            ans+=x.size()-rp;
+            curr[x[lp]-'0']--;
+            lp++;
+        }
+        else{
+            rp++;
+            if(rp<x.size()) curr[x[rp]-'0']++;
+        }
+
+
+    }
+
+    cout<<ans;
+
+    
 }
 
 int32_t main()
@@ -90,7 +123,7 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif  
     int t=1;
-    cin>>t;
+    //cin>>t;
     while(t--) solve();
     
     return 0;

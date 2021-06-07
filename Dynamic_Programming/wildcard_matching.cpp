@@ -1,6 +1,6 @@
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
 
 
@@ -20,11 +20,10 @@
 #define pqs             priority_queue<int,vi,greater<int> >
 #define setbits(x)      __builtin_popcountll(x)
 #define zrobits(x)      __builtin_ctzll(x)
+#define mod             1000000007
 #define inf             1e18
 #define ps(x,y)         fixed<<setprecision(y)<<x
 #define mk(arr,n,type)  type *arr=new type[n];
-#define all(x) x.begin(),x.end()
-
 
 #define MOD 1000000007
 using namespace std;
@@ -39,7 +38,6 @@ vi init(string s)
 }
 // int dx[]={-1,1,0,0}; int dy[]={0,0,1,-1};
 // int dx[]={2,2,-2,-2,1,1,-1,-1}; int dy[]={1,-1,1,-1,2,-2,2,-2};
-
 /*------------------------------UNORDERED MAP HASH --------------------------------------------*/
 //To make unordered_map unhackable 
 // use it as unordered_map<int,int,custom_hash> mapp;
@@ -70,14 +68,33 @@ int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x)
 
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
 
+map<pair<string, string>,bool> dp; 
+
+bool help(string s,string p){
+	if(s.size()==0&& p.size()==0) return true;
+	if(s.size()==0 || p.size()==0) return false;
+	bool ans=false;
+	pair<string, string> key={s,p};
+	if(dp.find(key)!=dp.end()) return dp[key];
+	if(s[0]==p[0]|| p[0]=='?'){
+		ans=help(s.substr(1),p.substr(1));
+	}
+	if(p[0]=='*')
+	{
+		bool op1=help(s,p.substr(1));
+		bool op2=help(s.substr(1),p);
+		bool op3=help(s.substr(1),p.substr(1));
+        ans= (op1|op2)|op3 ;	}
+	// default false for s[0]!=p[0]
+
+	return dp[key]=ans;
+}
 
 void solve(){
-    int n;
-    cin>>n;
-    int arr[n];
-    for(int i=0;i<n;i++){
-        
-    }
+    string s,p;
+    cin>>s>>p;
+    bool ans=help(s,p);
+    cout<<ans;
 }
 
 int32_t main()
@@ -90,7 +107,7 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif  
     int t=1;
-    cin>>t;
+    //cin>>t;
     while(t--) solve();
     
     return 0;

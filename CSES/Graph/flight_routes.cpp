@@ -70,15 +70,65 @@ int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x)
 
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
 
+vec<2,int> adj(100005),trans_adj(100005);
+int n,m;
+vec<1,bool> vis(100005,false);
+stack<int> s;
+
+void dfs(int curr){
+	vis[curr]=true;
+	for(auto &child : adj[curr]){
+		if(!vis[child]) dfs(child);
+	}
+	
+}
+
+void rdfs(int curr){
+	//cout<<curr<<" ";
+	vis[curr]=true;
+	for(auto &child : trans_adj[curr]){
+		if(!vis[child]) rdfs(child);
+	}
+
+}
+
+bool ischild(int u,int v){
+	for(auto &child : adj[u]){
+		if(child==v) return true;
+	}
+	return false;
+}
+
 
 void solve(){
-    int n;
-    cin>>n;
-    int arr[n];
-    for(int i=0;i<n;i++){
-        
+    cin>>n>>m;
+    for(int i=1;i<=m;i++){
+    	int u,v;
+    	cin>>u>>v;
+    	adj[u].pb(v);
+    	trans_adj[v].pb(u);
     }
+    dfs(1);
+    for(int i=1;i<=n;i++){
+    	if(!vis[i]){
+    		cout<<"NO\n";
+    		cout<<1<<" "<<i;
+    		return;
+    	}
+    }
+ 	
+    for(int i=1;i<=n;i++) vis[i]=false;
+    rdfs(1);
+    for(int i=1;i<=n;i++){
+    	if(!vis[i]){
+    		cout<<"NO\n";
+    		cout<<i<<" "<<1;
+    		return;
+    	}
+    }
+    cout<<"YES";
 }
+
 
 int32_t main()
 {
@@ -90,7 +140,7 @@ int32_t main()
     //freopen("output.txt", "w", stdout);
     //#endif  
     int t=1;
-    cin>>t;
+    //cin>>t;
     while(t--) solve();
     
     return 0;

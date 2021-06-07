@@ -1,6 +1,7 @@
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-//#pragma GCC optimize("unroll-loops")
+//https://hack.codingblocks.com/app/contests/1209/512/problem
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
 #include <bits/stdc++.h>
 
 
@@ -23,8 +24,6 @@
 #define inf             1e18
 #define ps(x,y)         fixed<<setprecision(y)<<x
 #define mk(arr,n,type)  type *arr=new type[n];
-#define all(x) x.begin(),x.end()
-
 
 #define MOD 1000000007
 using namespace std;
@@ -39,7 +38,6 @@ vi init(string s)
 }
 // int dx[]={-1,1,0,0}; int dy[]={0,0,1,-1};
 // int dx[]={2,2,-2,-2,1,1,-1,-1}; int dy[]={1,-1,1,-1,2,-2,2,-2};
-
 /*------------------------------UNORDERED MAP HASH --------------------------------------------*/
 //To make unordered_map unhackable 
 // use it as unordered_map<int,int,custom_hash> mapp;
@@ -70,14 +68,39 @@ int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x)
 
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
 
+string s;
+int mod;
+int dp[(1<<10)+1][101];
+int help(int mask,int m){
+    if(mask==((1<<s.size()) -1)){
+        return (m==0);
+    }
+    if(dp[mask][m]!=-1) return dp[mask][m];
+    vec<1,bool> freq(10,false);
+    int ans=0;
+    for(int i=0;i<s.size();i++){
+        if(s[i]=='0' && mask==0){
+            continue;
+        }
+        if(!(mask&(1<<i)) && !freq[s[i]-'0']){
+            freq[s[i]-'0']=true;
+            ans+=help(mask|(1<<i),(m*10+s[i]-'0')%mod);
+            
+        }
+
+
+    }
+    return dp[mask][m]=ans;
+}
 
 void solve(){
-    int n;
-    cin>>n;
-    int arr[n];
-    for(int i=0;i<n;i++){
-        
-    }
+    cin>>s;
+    cin>>mod;
+    memset(dp,-1,sizeof(dp));
+	
+	cout<<help(0,0)<<'\n';	
+
+
 }
 
 int32_t main()
