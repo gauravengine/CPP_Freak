@@ -1,9 +1,5 @@
 [
 	{
-		"correct_answers":
-		[
-			"ac\nf\nb"
-		],
-		"test": "3\n28\nqaabzwsxedcrfvtgbyhnujmiklop\n13\ncleanairactbd\n10\naannttoonn\n"
+		"test": "1\n4\n-1 128 128 128\n128 -1 148 160\n128 148 -1 128\n128 160 128 -1\n"
 	}
 ]
