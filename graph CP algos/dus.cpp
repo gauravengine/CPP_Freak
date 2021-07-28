@@ -1,7 +1,7 @@
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-//#pragma GCC optimize("unroll-loops")
-#include "bits/stdc++.h"
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
+#include <bits/stdc++.h>
 
 
 #define db1(x) cout<<#x<<"="<<x<<'\n'
@@ -20,12 +20,11 @@
 #define pqs             priority_queue<int,vi,greater<int> >
 #define setbits(x)      __builtin_popcountll(x)
 #define zrobits(x)      __builtin_ctzll(x)
+#define mod             1000000007
 #define inf             1e18
 #define ps(x,y)         fixed<<setprecision(y)<<x
 #define mk(arr,n,type)  type *arr=new type[n];
-#define all(x) x.begin(),x.end()
-
-
+#define w(x)            int x; cin>>x; while(x--)
 #define MOD 1000000007
 using namespace std;
 using ll = long long;
@@ -39,7 +38,6 @@ vi init(string s)
 }
 // int dx[]={-1,1,0,0}; int dy[]={0,0,1,-1};
 // int dx[]={2,2,-2,-2,1,1,-1,-1}; int dy[]={1,-1,1,-1,2,-2,2,-2};
-
 /*------------------------------UNORDERED MAP HASH --------------------------------------------*/
 //To make unordered_map unhackable 
 // use it as unordered_map<int,int,custom_hash> mapp;
@@ -70,66 +68,69 @@ int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x)
 
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
 
+const int N=2e5+5;
+int par[N];
+int siz[N];
+
+int find_set(int x){
+	if(x==par[x]) return x;
+	return par[x]=find_set(par[x]);
+}
+
+void union_set(int x,int y){
+	x=find_set(x);
+	y=find_set(y);
+	if(x==y) return ;
+
+	if(siz[x]>siz[y]) swap(x,y);
+    // now x smol
+
+	par[x]=y;
+	siz[y]+=siz[x];
+
+}
+
+void initialise(int n){
+	for(int i=0;i<n;i++){
+		par[i]=i;
+		siz[i]=1;
+	}
+}
 
 void solve(){
-    
+    int n,q;
+    cin>>n>>q;
+    initialise(n);
+    while(q--){
+        int op;
+        cin>>op;
+        if(op==0){
+            int u,v;
+            cin>>u>>v;
+            union_set(u,v);
+        }
+        else{
+            int u,v;
+            cin>>u>>v;
+            
+            if(find_set(u)==find_set(v)) cout<<1<<'\n';
+            else cout<<0<<'\n';
+        }
+    }
 }
 
 int32_t main()
 {
     ios::sync_with_stdio(0);
     cin.tie(0);
-    cout.tie(0);
-    //#ifndef ONLINE_JUDGE
+    cout.tie(0)  ;
+  //#ifndef ONLINE_JUDGE
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
     //#endif  
     int t=1;
-    cin>>t;
+    //cin>>t;
     while(t--) solve();
     
     return 0;
-}
-// you can use includes, for example:
-// #include <algorithm>
-
-// you can write to stderr for debugging purposes, e.g.
-// cerr << "this is a debug message" << endl;
-int help(int i,int j,vector<vector<int>> &mat){
-    int dx[]={-1,-1,-1,0,0,1,1,1};
-    int dy[]={-1,0,1,-1,1,-1,0,1};
-    int n=mat.size();
-    int ans=0;
-    for(int k=0;k<8;k++){
-        int x=i+dx[k];
-        int y=j+dy[k];
-        if(x>=0 && x<n && y>=0 && y<n){
-            if(mat[x][y]==-1) ans++;
-        }
-    }
-    return ans;
-}
-void solution(int N, vector<int> &R, vector<int> &C) {
-    // write your code in C++14 (g++ 6.2.0)
-    vector<vector<int>> mat(N,vector<int>(N,0));
-    int b=R.size();
-    for(int i=0;i<b;i++){
-        mat[R[i]][C[i]]=-1;
-    }
-    for(int i=0;i<N;i++){
-        for(int j=0;j<N;j++){
-            if(mat[i][j]==0){
-                //not filled yet
-                int ans=help(i,j,mat);
-                mat[i][j]=ans;
-            }
-        }
-    }
-    for(int i=0;i<N;i++){
-        for(int j=0;j<N;j++){
-            if(mat[i][j]==-1)cout<<"B";
-            else cout<<mat[i][j];
-        }
-        cout<<"\n";
-    }
 }

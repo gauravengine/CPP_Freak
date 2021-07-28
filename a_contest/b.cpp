@@ -1,7 +1,7 @@
 //#pragma GCC optimize("Ofast")
 //#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
 //#pragma GCC optimize("unroll-loops")
-#include <bits/stdc++.h>
+#include "bits/stdc++.h"
 
 
 #define db1(x) cout<<#x<<"="<<x<<'\n'
@@ -72,18 +72,19 @@ template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_a
 
 
 void solve(){
-    int n;
-    cin>>n;
-    vec<1,int> a(n,0);
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            int x; cin>>x;
-            if(i==j) continue;
-            a[i]|=x;
-            a[j]|=x;
-        }
+    string a,b,c,d;
+    cin>>a>>b>>c>>d;
+    unordered_map<string,bool> hash;
+    hash[a]=true;
+    hash[b]=true;
+    hash[c]=true;
+    hash[d]=true;
+    string e="H",f="2B",g="3B",h="HR";
+    if(hash[e]&&hash[f]&&hash[g]&&hash[h]){
+        cout<<"Yes";
+    }else{
+        cout<<"No";
     }
-    for(int i=0;i<n;i++) cout<<a[i]<<" ";
 }
 
 int32_t main()
