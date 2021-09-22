@@ -1,6 +1,6 @@
-//#pragma GCC optimize("Ofast")
-//#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
-//#pragma GCC optimize("unroll-loops")
+#pragma GCC optimize("Ofast")
+#pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,avx2,fma")
+#pragma GCC optimize("unroll-loops")
 #include "bits/stdc++.h"
 
 
@@ -69,10 +69,95 @@ int lcm (int a, int b) { return a / gcd(a, b) * b; }
 int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x) % m == 1) return x; return -1; }
 
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
+int n,k;
+bool check(int i,int j){
+    return i>=0 && i<n && j>=0 && j<n;
+}
 
-
+int ans=-1;
+int dx[2]={1,0};
+int dy[2]={0,1};
+vec<4,int> dp(151,151,2,300,INT_MIN);
+int dfs(int i,int j,int bit,int rem,vec<2,bool> &valid,vec<2,int> mat){
+    if(i==n-1 && j==n-1){
+        if(valid[i][j]) return mat[i][j];
+        else{
+            // if(bit){
+            //     if(rem>0) return mat[i][j];
+            //     else return INT_MIN;
+            // }
+            if(rem>0) return mat[i][j];
+            else return INT_MIN;
+        }
+    }
+    if(dp[i][j][bit][rem]>INT_MIN) return dp[i][j][bit][rem];
+    if(valid[i][j] && bit==0){
+        int ans=mat[i][j];
+        int op1=INT_MIN;
+        for(int k=0;k<2;k++){
+            int x=i+dx[k];
+            int y=j+dy[k];
+            if(check(x,y)){
+                op1=max(op1,dfs(x,y,0,rem,valid,mat));
+            }
+        }
+        return dp[i][j][bit][rem]=ans+op1;
+    }
+    else if(bit==0 && !valid[i][j]){
+        if(rem<=0) return INT_MIN;
+        // or start from here
+        int ans=mat[i][j];
+        int op1=INT_MIN;
+        rem--;
+        bit=1;
+        if(rem==0) bit=0;
+        for(int k=0;k<2;k++){
+            int x=i+dx[k];
+            int y=j+dy[k];
+            if(check(x,y)){
+                op1=max(op1,dfs(x,y,bit,rem,valid,mat));
+            }
+        }
+        return dp[i][j][bit][rem]=ans+op1;
+    }
+    else{
+        if(rem<=0) return INT_MIN;
+        //continue
+        int ans=mat[i][j];
+        int op1=INT_MIN;
+        rem--;
+        bit=1;
+        if(rem==0) bit=0;
+        for(int k=0;k<2;k++){
+            int x=i+dx[k];
+            int y=j+dy[k];
+            if(check(x,y)){
+                op1=max(op1,dfs(x,y,bit,rem,valid,mat));
+            }
+        }
+        return dp[i][j][bit][rem]=ans+op1;
+    }
+}
 void solve(){
-    
+    cin>>n>>k;
+    ans=-1;
+    vec<2,bool> valid (n,n,true);
+    vec<2,int> mat(n,n);
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            char x;
+            cin>>x;
+            if(x=='#') valid[i][j]=false;
+        }
+    }
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            cin>>mat[i][j];
+        }
+    }
+    int fans=-1;
+    fans=max(fans,dfs(0,0,0,k,valid,mat));
+    cout<<fans<<"\n";
 }
 
 int32_t main()
@@ -89,47 +174,4 @@ int32_t main()
     while(t--) solve();
     
     return 0;
-}
-// you can use includes, for example:
-// #include <algorithm>
-
-// you can write to stderr for debugging purposes, e.g.
-// cerr << "this is a debug message" << endl;
-int help(int i,int j,vector<vector<int>> &mat){
-    int dx[]={-1,-1,-1,0,0,1,1,1};
-    int dy[]={-1,0,1,-1,1,-1,0,1};
-    int n=mat.size();
-    int ans=0;
-    for(int k=0;k<8;k++){
-        int x=i+dx[k];
-        int y=j+dy[k];
-        if(x>=0 && x<n && y>=0 && y<n){
-            if(mat[x][y]==-1) ans++;
-        }
-    }
-    return ans;
-}
-void solution(int N, vector<int> &R, vector<int> &C) {
-    // write your code in C++14 (g++ 6.2.0)
-    vector<vector<int>> mat(N,vector<int>(N,0));
-    int b=R.size();
-    for(int i=0;i<b;i++){
-        mat[R[i]][C[i]]=-1;
-    }
-    for(int i=0;i<N;i++){
-        for(int j=0;j<N;j++){
-            if(mat[i][j]==0){
-                //not filled yet
-                int ans=help(i,j,mat);
-                mat[i][j]=ans;
-            }
-        }
-    }
-    for(int i=0;i<N;i++){
-        for(int j=0;j<N;j++){
-            if(mat[i][j]==-1)cout<<"B";
-            else cout<<mat[i][j];
-        }
-        cout<<"\n";
-    }
 }

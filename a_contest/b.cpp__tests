@@ -2,15 +2,8 @@
 	{
 		"correct_answers":
 		[
-			"Yes"
+			"1\n2\n4\n0\n2"
 		],
-		"test": "3B\nHR\n2B\nH\n"
-	},
-	{
-		"correct_answers":
-		[
-			"No"
-		],
-		"test": "2B\n3B\nHR\n3B\n"
+		"test": "4\n3 6 2 3\n5\n3 12\n7 9\n4 14\n1 10\n8 7\n"
 	}
 ]

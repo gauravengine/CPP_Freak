@@ -67,15 +67,146 @@ inline int ceil(int a, int b) { return (a+b-1)/b; }
 int gcd (int a, int b) { while (b) { a %= b; swap(a, b); } return a; }
 int lcm (int a, int b) { return a / gcd(a, b) * b; }
 int inverseMod(int a, int m) { a = a % m; for (ll x = 1; x < m; x++) if ((a * x) % m == 1) return x; return -1; }
+/* DEBUGGING */
+typedef long long ll;
+typedef unsigned long long ull;
+typedef long double lld;
 
+
+#ifndef ONLINE_JUDGE
+
+#define debug(x)       \
+    cerr << #x << " "; \
+    _print(x);         \
+    cerr << endl;
+
+#else
+#define debug(x)
+
+#endif
+
+
+void _print(ll t)
+{
+    cerr << t;
+}
+
+void _print(string t)
+{
+    cerr << t;
+}
+void _print(char t)
+{
+    cerr << t;
+}
+void _print(lld t)
+{
+    cerr << t;
+}
+void _print(double t)
+{
+    cerr << t;
+}
+void _print(ull t)
+{
+    cerr << t;
+}
+
+template <class T, class V>
+void _print(pair<T, V> p);
+template <class T>
+void _print(vector<T> v);
+template <class T>
+void _print(set<T> v);
+template <class T, class V>
+void _print(map<T, V> v);
+template <class T>
+void _print(multiset<T> v);
+template <class T, class V>
+void _print(pair<T, V> p)
+{
+    cerr << "{";
+    _print(p.ff);
+    cerr << ",";
+    _print(p.ss);
+    cerr << "}";
+}
+template <class T>
+void _print(vector<T> v)
+{
+    cerr << "[ ";
+    for (T i : v)
+    {
+        _print(i);
+        cerr << " ";
+    }
+    cerr << "]";
+    cerr << "\n";
+}
+template <class T>
+void _print(set<T> v)
+{
+    cerr << "[ ";
+    for (T i : v)
+    {
+        _print(i);
+        cerr << " ";
+    }
+    cerr << "]";
+    cerr << "\n";
+}
+template <class T>
+void _print(multiset<T> v)
+{
+    cerr << "[ ";
+    for (T i : v)
+    {
+        _print(i);
+        cerr << " ";
+    }
+    cerr << "]";
+    cerr << "\n";
+}
+template <class T, class V>
+void _print(map<T, V> v)
+{
+    cerr << "[ ";
+    for (auto i : v)
+    {
+        _print(i);
+        cerr << " ";
+    }
+    cerr << "]";
+    cerr << "\n";
+}
+/* END DEBUGGING */
 template<int D, typename T> struct vec : public vector<vec<D - 1, T>> { static_assert(D >= 1, "Vector dimension must be greater than zero!");  template<typename... Args> vec(int n = 0, Args... args) : vector<vec<D - 1, T>>(n, vec<D - 1, T>(args...)) { } }; template<typename T> struct vec<1, T> : public vector<T> { vec(int n = 0, T val = T()) : vector<T>(n, val) { }};
 
 
 void solve(){
-    double a,b;
-    cin>>a>>b;
-    double c= (a-b)/3 + b;
-    cout<<setprecision(8)<<c;
+    int n;
+    cin>>n;
+    vec<1,int> arr(n);
+    for(int i=0;i<n;i++) cin>>arr[i];
+
+    sort(all(arr));
+    int pre=0,end=n-1;
+    vec<1,int> ans;
+    for(int i=0;i<n;i++){
+        if(i&1){
+            ans.pb(arr[pre++]);
+        }
+        else{
+            ans.pb(arr[end--]);
+        }
+    }
+    int fans=0;
+    for(int i=1;i<n;i+=2){
+        if( i+1 <n && ans[i-1]> ans[i] && ans[i]<ans[i+1]) fans++;
+    }
+    cout<<fans<<"\n";
+    for(auto i:ans) cout<<i<<" ";
+    cout<<"\n";
 }
 
 int32_t main()
@@ -83,10 +214,11 @@ int32_t main()
     ios::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-    //#ifndef ONLINE_JUDGE
+    #ifndef ONLINE_JUDGE
     //freopen("input.txt", "r", stdin);
     //freopen("output.txt", "w", stdout);
-    //#endif  
+    freopen("error.txt", "w", stderr);
+    #endif  
     int t=1;
     //cin>>t;
     while(t--) solve();

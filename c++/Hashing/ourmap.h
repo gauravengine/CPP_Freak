@@ -84,7 +84,7 @@ class ourmap
             bucket[bucketIndex]= temp;
             count++;
         }
-
+        
     }
 
     V remove(string key) {
@@ -117,7 +117,7 @@ class ourmap
 
     V getValue(string key){
         int bucketIndex = getBucketIndex(key);
-        MapNode<V> * head= bucket[bucketIndex];
+        MapNode<V> * head = bucket[bucketIndex];
         while(head != NULL){
             if(head->key == key){
                 return head->value;
